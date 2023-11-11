@@ -1,4 +1,5 @@
 import dto.ClassInfo;
+import dto.TakeClassResult;
 import repositories.AccountRepository;
 import repositories.TakeClassRepository;
 
@@ -116,6 +117,7 @@ public class ConsoleProgram {
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[회원 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
+			System.out.println();
 
 			if (menu == 0) {
 				break;
@@ -126,7 +128,6 @@ public class ConsoleProgram {
 					continue;
 				}
 
-				System.out.println();
 				sc.nextLine();
 
 				System.out.print("아이디(dong)  : ");
@@ -161,7 +162,6 @@ public class ConsoleProgram {
 					continue;
 				}
 
-				System.out.println();
 				sc.nextLine();
 
 				System.out.print("변경할 비밀번호 : ");
@@ -209,6 +209,7 @@ public class ConsoleProgram {
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[수강신청 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
+			System.out.println();
 
 			if (menu == 0) {
 				break;
@@ -237,6 +238,28 @@ public class ConsoleProgram {
 					if (sc.nextInt() != 1) {
 						break;
 					}
+				}
+			}
+			else if (menu == 2) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				sc.nextLine();
+
+				System.out.print("수강 신청할 전체 과목 코드를 입력해주세요 : ");
+				String fullCode = sc.nextLine();
+				String lectureCode = fullCode.substring(0, 8);
+				String sectionCode = fullCode.substring(8);
+
+				TakeClassResult result = takeClassRepository.takeClass(loginedStudentId, lectureCode, sectionCode);
+
+				if (result.isSuccess) {
+					System.out.println("수강 신청에 성공했습니다.");
+				}
+				else {
+					System.out.println("수강 신청에 실패했습니다. 사유 : " + result.message);
 				}
 			}
 		}
