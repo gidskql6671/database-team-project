@@ -1,4 +1,5 @@
 import dto.ClassInfo;
+import dto.Post;
 import repositories.AccountRepository;
 import repositories.ClassRepository;
 
@@ -236,12 +237,12 @@ public class ConsoleProgram {
 				break;
 			}
 			else if (menu == 1) {
-				if (loginedStudentNumber.equals("")) {
+				if (loginedStudentId.equals("")) {
 					System.out.println("로그인을 먼저 해야합니다.");
 					continue;
 				}
 
-				List<ClassInfo> takingClasses = classRepository.getTakingClass(loginedStudentNumber);
+				List<ClassInfo> takingClasses = classRepository.getTakingClass(loginedStudentId);
 
 				System.out.print("현재 수강중인 과목은 ");
 				if (takingClasses.isEmpty()) {
@@ -259,6 +260,34 @@ public class ConsoleProgram {
 								takingClasses.get(i).sectionCode);
 					}
 					System.out.println("입니다.");
+				}
+			}
+			else if (menu == 2) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				System.out.println();
+				sc.nextLine();
+
+				System.out.print("전체 과목 코드를 입력해주세요 : ");
+				String fullCode = sc.nextLine();
+				String lectureCode = fullCode.substring(0, 8);
+				String sectionCode = fullCode.substring(8);
+
+				List<Post> posts = classRepository.getPosts(loginedStudentId, lectureCode, sectionCode);
+
+				if (posts == null) {
+					System.out.println("수강하지 않는 과목입니다.");
+					continue;
+				}
+
+				System.out.println("해당 과목의 게시글들은 다음과 같습니다.");
+				System.out.printf("%-9s | %-20s | %-20s\n", "게시글 ID", "제목", "작성자명");
+				for (Post post : posts) {
+					System.out.printf("%-9d | %-20s | %-20s\n",
+							post.id, post.title, post.publisherName);
 				}
 			}
 		}
