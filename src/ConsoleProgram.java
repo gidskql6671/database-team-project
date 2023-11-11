@@ -107,7 +107,7 @@ public class ConsoleProgram {
 			System.out.println("1. 로그인 (아이디 : dong, 비밀번호 : dong)");
 			System.out.println("2. 로그아웃");
 			System.out.println("3. 비밀번호 변경");
-			System.out.println("4. 평균 평점을 조회한다. (Phase2의 18번쿼리[쿼리 수정 필요])");
+			System.out.println("4. 평균 평점을 조회한다. (18번쿼리)");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[회원 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
@@ -200,7 +200,7 @@ public class ConsoleProgram {
 			System.out.println("1. 이번 학기에 개설된 전체 분반 목록 보기");
 			System.out.println("2. 수강 신청");
 			System.out.println("3. 수강 취소");
-			System.out.println("4. 특정 학과의 강의 목록 보기 (Phase2의 1번 쿼리)");
+			System.out.println("4. 특정 학과의 강의 목록 보기 (1번 쿼리)");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[수강신청 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
@@ -214,14 +214,14 @@ public class ConsoleProgram {
 	private void classService() {
 		while (true) {
 			System.out.println();
-			System.out.println("1. 현재 수강 중인 수업 목록 보기 (Phase2의 4번 쿼리[쿼리 수정 필요])");
+			System.out.println("1. 현재 수강 중인 수업 목록 보기 (4번 쿼리[쿼리 수정 필요])");
 			System.out.println("2. 어느 한 수업의 게시글 목록 보기");
 			System.out.println("3. 특정 게시글 보기");
 			System.out.println("4. 특정 게시글의 댓글 목록 보기");
 			System.out.println("5. 어느 한 수업의 수강생 목록 보기");
-			System.out.println("6. 어느 한 수업의 수강생 수 보기 (Phase2의 5번 쿼리)");
+			System.out.println("6. 어느 한 수업의 수강생 수 보기 (5번 쿼리)");
 			System.out.println("7. 특정 게시글의 댓글 목록 보기");
-			System.out.println("8. 특정 요일에 진행되는 강의 목록 보기 (Phase2의 11번 쿼리)");
+			System.out.println("8. 특정 요일에 진행되는 강의 목록 보기 (11번 쿼리)");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[수업 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
@@ -236,7 +236,7 @@ public class ConsoleProgram {
 		while (true) {
 			System.out.println();
 			System.out.println("1. 건물 번호 목록 조회");
-			System.out.println("2. 특정 건물의 모든 강의실 목록 조회 (Phase2의 2번 쿼리)");
+			System.out.println("2. 특정 건물의 모든 강의실 목록 조회 (2번 쿼리)");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[강의실 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
@@ -250,10 +250,10 @@ public class ConsoleProgram {
 	private void departmentService() {
 		while (true) {
 			System.out.println();
-			System.out.println("1. 특정 과의 학생 목록 조회(Phase2의 3번 쿼리[쿼리 수정 필요])");
-			System.out.println("2. 성적을 한번 이상 받은 학생 목록 조회 (Phase2의 9번 쿼리)");
-			System.out.println("3. 특정 과의 교수 목록 조회(Phase2의 6번 쿼리[쿼리 수정 필요])");
-			System.out.println("4. 특정 학기에 수업을 진행하지 않는 특정 과의 교수 목록 조회 (Phase2의 10번 쿼리[쿼리 수정 필요])");
+			System.out.println("1. 특정 과의 학생 목록 조회(3번 쿼리[쿼리 수정 필요])");
+			System.out.println("2. 성적을 한번 이상 받은 학생 목록 조회 (9번 쿼리)");
+			System.out.println("3. 특정 과의 교수 목록 조회(6번 쿼리[쿼리 수정 필요])");
+			System.out.println("4. 특정 학기에 수업을 진행하지 않는 특정 과의 교수 목록 조회 (10번 쿼리[쿼리 수정 필요])");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[학과 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
