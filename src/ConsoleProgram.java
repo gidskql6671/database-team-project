@@ -1,9 +1,12 @@
+import dto.ClassInfo;
 import repositories.AccountRepository;
+import repositories.TakeClassRepository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -15,6 +18,7 @@ public class ConsoleProgram {
 	Scanner sc;
 	private String loginedStudentId = "";
 	private AccountRepository accountRepository;
+	private TakeClassRepository takeClassRepository;
 
 
 	public ConsoleProgram() throws SQLException {}
@@ -50,6 +54,7 @@ public class ConsoleProgram {
 
 		// 레포지토리 객체 생성
 		accountRepository = new AccountRepository(conn, stmt);
+		takeClassRepository = new TakeClassRepository(conn, stmt);
 
 		System.out.println("\n\n통합 LMS입니다.");
 
@@ -207,6 +212,32 @@ public class ConsoleProgram {
 
 			if (menu == 0) {
 				break;
+			}
+			else if (menu == 1) {
+				List<ClassInfo> classes = takeClassRepository.getClasses(2023, "2");
+
+				System.out.println("이번 학기에 개설된 분반 목록입니다.");
+				for(int i = 0; i < classes.size(); i += 10) {
+					System.out.printf("%-11s | %-20s | 강의실 위치\n", "강의 코드", "교수명");
+					for(int j = i; j < i + 10 && j < classes.size(); j++) {
+						ClassInfo ci = classes.get(j);
+						System.out.printf("%-11s | %-20s | %d-%s\n",
+								ci.lectureCode + ci.sectionCode, ci.professorName,
+								ci.buildingNumber, ci.roomCode);
+					}
+					System.out.printf("(%d/%d)\n", (i / 10) + 1, (classes.size() / 10) + 1);
+					if ((i / 10) + 1 ==  (classes.size() / 10) + 1) {
+						System.out.println("마지막 페이지입니다. 종료하시려면 엔터를 입력하세요.");
+						sc.nextLine();
+						sc.nextLine();
+						break;
+					}
+					System.out.println("더 보시겠습니까? 그렇다면 1을 입력하세요.");
+
+					if (sc.nextInt() != 1) {
+						break;
+					}
+				}
 			}
 		}
 	}
