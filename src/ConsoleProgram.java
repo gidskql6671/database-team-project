@@ -13,7 +13,7 @@ public class ConsoleProgram {
 	public static final String USER_PASSWD ="lms";
 
 	Scanner sc;
-	private String loginedStudentNumber = "";
+	private String loginedStudentId = "";
 	private AccountRepository accountRepository;
 
 
@@ -116,7 +116,7 @@ public class ConsoleProgram {
 				break;
 			}
 			else if (menu == 1) {
-				if (!loginedStudentNumber.equals("")) {
+				if (!loginedStudentId.equals("")) {
 					System.out.println("이미 로그인되어 있습니다.");
 					continue;
 				}
@@ -143,15 +143,15 @@ public class ConsoleProgram {
 				}
 				else {
 					System.out.println("로그인에 성공했습니다.");
-					loginedStudentNumber = studentId;
+					loginedStudentId = studentId;
 				}
 			}
 			else if (menu == 2) {
 				System.out.println("로그아웃 했습니다.");
-				loginedStudentNumber = "";
+				loginedStudentId = "";
 			}
 			else if (menu == 3) {
-				if (loginedStudentNumber.equals("")) {
+				if (loginedStudentId.equals("")) {
 					System.out.println("로그인을 먼저 해야합니다.");
 					continue;
 				}
@@ -170,10 +170,10 @@ public class ConsoleProgram {
 					continue;
 				}
 
-				boolean success = accountRepository.changePassword(loginedStudentNumber, password);
+				boolean success = accountRepository.changePassword(loginedStudentId, password);
 				if (success) {
 					System.out.println("비밀번호 변경을 성공했습니다. 로그아웃합니다.");
-					loginedStudentNumber = "";
+					loginedStudentId = "";
 				}
 				else {
 					System.out.println("비밀번호 변경을 실패했습니다.");
@@ -181,12 +181,12 @@ public class ConsoleProgram {
 
 			}
 			else if (menu == 4) {
-				if (loginedStudentNumber.equals("")) {
+				if (loginedStudentId.equals("")) {
 					System.out.println("로그인을 먼저 해야합니다.");
 					continue;
 				}
 
-				double result = accountRepository.getGPA(loginedStudentNumber);
+				double result = accountRepository.getGPA(loginedStudentId);
 
 				System.out.println("평균 학점은 " + result + "입니다.");
 
