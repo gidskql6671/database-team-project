@@ -49,8 +49,7 @@ public class ClassRepository {
 		return result;
 	}
 
-	public List<Post> getPosts(String studentId, String lectureCode, String sectionCode) {
-		List<Post> result = new ArrayList<>();
+	public boolean isTakingClass(String studentId, String lectureCode, String sectionCode) {
 		try {
 			String sql = "SELECT * FROM TAKE_CLASS " +
 					"WHERE STUDENT_ID = ? AND LECTURE_CODE = ? AND SECTION_CODE = ?";
@@ -63,19 +62,31 @@ public class ClassRepository {
 
 			ResultSet rs = ps.executeQuery();
 			if (!rs.next()) {
-				return null;
+				return false;
 			}
 
-			sql = "SELECT POST_ID, TYPE, TITLE, NAME " +
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return true;
+	}
+
+	public List<Post> getPosts(String lectureCode, String sectionCode) {
+		List<Post> result = new ArrayList<>();
+		try {
+			String sql = "SELECT POST_ID, TYPE, TITLE, NAME " +
 					"FROM POST JOIN PROFESSOR ON PROFESSOR_ID = PUBLISHER_ID " +
 					"WHERE LECTURE_CODE = ? AND SECTION_CODE = ?";
 
-			ps = conn.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
 
 			ps.setString(1, lectureCode);
 			ps.setString(2, sectionCode);
 
-			rs = ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				Post post = new Post(
 						rs.getInt(1),
@@ -97,4 +108,36 @@ public class ClassRepository {
 		return result;
 	}
 
+	public Post getPost(String lectureCode, String sectionCode, int postId) {
+		Post result = null;
+		try {
+			String sql = "SELECT POST_ID, TYPE, TITLE, CONTENT, NAME " +
+					"FROM POST JOIN PROFESSOR ON PROFESSOR_ID = PUBLISHER_ID " +
+					"WHERE LECTURE_CODE = ? AND SECTION_CODE = ? AND POST_ID = ?";
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1, lectureCode);
+			ps.setString(2, sectionCode);
+			ps.setInt(3, postId);
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				result = new Post(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getString(4),
+						rs.getString(5)
+				);
+			}
+
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return result;
+	}
 }

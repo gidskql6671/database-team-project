@@ -276,12 +276,12 @@ public class ConsoleProgram {
 				String lectureCode = fullCode.substring(0, 8);
 				String sectionCode = fullCode.substring(8);
 
-				List<Post> posts = classRepository.getPosts(loginedStudentId, lectureCode, sectionCode);
-
-				if (posts == null) {
+				if (!classRepository.isTakingClass(loginedStudentId, lectureCode, sectionCode)) {
 					System.out.println("수강하지 않는 과목입니다.");
 					continue;
 				}
+
+				List<Post> posts = classRepository.getPosts(lectureCode, sectionCode);
 
 				System.out.println("해당 과목의 게시글들은 다음과 같습니다.");
 				System.out.printf("%-9s | %-20s | %-20s\n", "게시글 ID", "제목", "작성자명");
@@ -289,6 +289,36 @@ public class ConsoleProgram {
 					System.out.printf("%-9d | %-20s | %-20s\n",
 							post.id, post.title, post.publisherName);
 				}
+			}
+			else if (menu == 3) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				System.out.println();
+				sc.nextLine();
+
+				System.out.print("전체 과목 코드를 입력해주세요 : ");
+				String fullCode = sc.nextLine();
+				String lectureCode = fullCode.substring(0, 8);
+				String sectionCode = fullCode.substring(8);
+
+				if (!classRepository.isTakingClass(loginedStudentId, lectureCode, sectionCode)) {
+					System.out.println("수강하지 않는 과목입니다.");
+					continue;
+				}
+
+				System.out.print("게시글 ID를 입력해주세요 : ");
+				int postId = sc.nextInt();
+
+				Post post = classRepository.getPost(lectureCode, sectionCode, postId);
+
+				System.out.println("제목  : " + post.title);
+				System.out.println("타입  : " + post.type);
+				System.out.println("작성자 : " + post.publisherName);
+				System.out.println("내용:");
+				System.out.println(post.content);
 			}
 		}
 	}
