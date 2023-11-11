@@ -1,9 +1,12 @@
+import dto.ClassInfo;
 import repositories.AccountRepository;
+import repositories.ClassRepository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -15,6 +18,7 @@ public class ConsoleProgram {
 	Scanner sc;
 	private String loginedStudentId = "";
 	private AccountRepository accountRepository;
+	private ClassRepository classRepository;
 
 
 	public ConsoleProgram() throws SQLException {}
@@ -50,6 +54,8 @@ public class ConsoleProgram {
 
 		// 레포지토리 객체 생성
 		accountRepository = new AccountRepository(conn, stmt);
+		classRepository = new ClassRepository(conn, stmt);
+
 
 		System.out.println("\n\n통합 LMS입니다.");
 
@@ -214,7 +220,7 @@ public class ConsoleProgram {
 	private void classService() {
 		while (true) {
 			System.out.println();
-			System.out.println("1. 현재 수강 중인 수업 목록 보기 (4번 쿼리[쿼리 수정 필요])");
+			System.out.println("1. 현재 수강 중인 수업 목록 보기 (4번 쿼리)");
 			System.out.println("2. 어느 한 수업의 게시글 목록 보기");
 			System.out.println("3. 특정 게시글 보기");
 			System.out.println("4. 특정 게시글의 댓글 목록 보기");
@@ -228,6 +234,32 @@ public class ConsoleProgram {
 
 			if (menu == 0) {
 				break;
+			}
+			else if (menu == 1) {
+				if (loginedStudentNumber.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				List<ClassInfo> takingClasses = classRepository.getTakingClass(loginedStudentNumber);
+
+				System.out.print("현재 수강중인 과목은 ");
+				if (takingClasses.isEmpty()) {
+					System.out.println("없습니다.");
+				}
+				else {
+					System.out.printf("'%s'(%s%s)",
+							takingClasses.get(0).name,
+							takingClasses.get(0).lectureCode,
+							takingClasses.get(0).sectionCode);
+					for(int i = 1; i < takingClasses.size(); i++) {
+						System.out.printf(", '%s'(%s%s)",
+								takingClasses.get(i).name,
+								takingClasses.get(i).lectureCode,
+								takingClasses.get(i).sectionCode);
+					}
+					System.out.println("입니다.");
+				}
 			}
 		}
 	}
