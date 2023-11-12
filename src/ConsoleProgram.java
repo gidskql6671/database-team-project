@@ -349,7 +349,7 @@ public class ConsoleProgram {
 			System.out.println("1. 특정 과의 학생 목록 조회(3번 쿼리)");
 			System.out.println("2. 특정 과의 성적을 한번 이상 받은 학생 목록 조회 (9번 쿼리)");
 			System.out.println("3. 특정 과의 교수의 수 조회(6번 쿼리)");
-			System.out.println("4. 특정 학기에 수업을 진행하지 않는 특정 과의 교수 목록 조회 (10번 쿼리[쿼리 수정 필요])");
+			System.out.println("4. 특정 학기에 수업을 진행하지 않는 특정 과의 교수 목록 조회 (10번 쿼리)");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[학과 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
@@ -385,6 +385,12 @@ public class ConsoleProgram {
 				int count = departmentRepository.countProfessors(departmentCode);
 				System.out.printf("%s의 교수 수는 %d명입니다.\n", department.name, count);
 			}
+			else if (menu == 4) {
+				List<Professor> professors = departmentRepository.getNotTeachProfessors(departmentCode, 2023, "2");
+
+				System.out.println(department.name + "의 수업을 진행하지 않는 교수 목록입니다.");
+				printProfessor(professors);
+			}
 		}
 	}
 
@@ -397,6 +403,19 @@ public class ConsoleProgram {
 			}
 
 			System.out.printf("(%d/%d) Enter...\n", (i / 10) + 1, (students.size() / 10) + 1);
+			sc.nextLine();
+		}
+	}
+
+	private void printProfessor(List<Professor> professors) {
+		for(int i = 0; i < professors.size(); i += 10) {
+			System.out.printf("%-10s | 이름\n", "교수 번호");
+			for(int j = i; j < i + 10 && j < professors.size(); j++) {
+				Professor professor = professors.get(j);
+				System.out.printf("%-11s | %-20s\n", professor.professorId, professor.name);
+			}
+
+			System.out.printf("(%d/%d) Enter...\n", (i / 10) + 1, (professors.size() / 10) + 1);
 			sc.nextLine();
 		}
 	}
