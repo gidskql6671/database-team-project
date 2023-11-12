@@ -262,6 +262,32 @@ public class ConsoleProgram {
 					System.out.println("수강 신청에 실패했습니다. 사유 : " + result.message);
 				}
 			}
+			else if (menu == 3) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				sc.nextLine();
+
+				System.out.print("수강 신청할 전체 과목 코드를 입력해주세요 : ");
+				String fullCode = sc.nextLine();
+				String lectureCode = fullCode.substring(0, 8);
+				String sectionCode = fullCode.substring(8);
+
+				if (!takeClassRepository.takingClass(loginedStudentId, lectureCode, sectionCode)) {
+					System.out.println("수강 신청된 과목이 아닙니다.");
+				}
+				else {
+					boolean result = takeClassRepository.untakeClass(loginedStudentId, lectureCode, sectionCode);
+					if (result) {
+						System.out.println("수강 신청 취소에 성공했습니다.");
+					}
+					else {
+						System.out.println("수강 신청 취소에 실패했습니다.");
+					}
+				}
+			}
 		}
 	}
 
