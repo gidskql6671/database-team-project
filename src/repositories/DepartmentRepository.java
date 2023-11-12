@@ -2,6 +2,7 @@ package repositories;
 
 import dto.Department;
 import dto.Lecture;
+import dto.Student;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -62,5 +63,31 @@ public class DepartmentRepository {
 		ps.close();
 
 		return lectures;
+	}
+
+	public List<Student> getStudents(String departmentCode) throws SQLException {
+		List<Student> students = new ArrayList<>();
+
+		String sql = "SELECT S.STUDENT_ID, S.NAME, S.GRADE, D.DEPARTMENT_CODE " +
+				" FROM DEPARTMENT D, STUDENT S WHERE D.DEPARTMENT_CODE = S.DEPARTMENT_CODE AND D.DEPARTMENT_CODE = ?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+
+		ps.setString(1, departmentCode);
+
+		ResultSet rs = ps.executeQuery();
+
+		while(rs.next()) {
+			students.add(new Student(
+					rs.getString(1),
+					rs.getString(2),
+					rs.getInt(3),
+					rs.getString(4)
+			));
+		}
+
+		rs.close();
+		ps.close();
+
+		return students;
 	}
 }
