@@ -11,76 +11,64 @@ public class AccountRepository {
 		this.stmt = stmt;
 	}
 
-	public String login(String loginId, String password) {
+	public String login(String loginId, String password) throws SQLException {
 		String result = "";
-		try {
-			String sql =
-				"SELECT STUDENT_ID " +
-						"FROM STUDENT " +
-						"WHERE LOGIN_ID = ? AND LOGIN_PASSWORD = ? ";
-			PreparedStatement ps = conn.prepareStatement(sql);
 
-			ps.setString(1, loginId);
-			ps.setString(2, password);
+		String sql =
+			"SELECT STUDENT_ID " +
+					"FROM STUDENT " +
+					"WHERE LOGIN_ID = ? AND LOGIN_PASSWORD = ? ";
+		PreparedStatement ps = conn.prepareStatement(sql);
 
-			ResultSet rs = ps.executeQuery();
+		ps.setString(1, loginId);
+		ps.setString(2, password);
 
-			while(rs.next()) {
-				result = rs.getString(1);
-			}
+		ResultSet rs = ps.executeQuery();
 
-			rs.close();
-			ps.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
+		while(rs.next()) {
+			result = rs.getString(1);
 		}
+
+		rs.close();
+		ps.close();
 
 		return result;
 	}
 
-	public boolean changePassword(String studentId, String changedPassword) {
-		int rs = 0;
-		try {
-			String sql = "UPDATE STUDENT S SET S.LOGIN_PASSWORD = ? WHERE S.STUDENT_ID = ?";
-			PreparedStatement ps = conn.prepareStatement(sql);
+	public boolean changePassword(String studentId, String changedPassword) throws SQLException {
+		String sql = "UPDATE STUDENT S SET S.LOGIN_PASSWORD = ? WHERE S.STUDENT_ID = ?";
+		PreparedStatement ps = conn.prepareStatement(sql);
 
-			ps.setString(1, changedPassword);
-			ps.setString(2, studentId);
+		ps.setString(1, changedPassword);
+		ps.setString(2, studentId);
 
-			rs = ps.executeUpdate();
+		int rs = ps.executeUpdate();
 
-			conn.commit();
+		conn.commit();
 
-			ps.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+		ps.close();
 
 		return rs == 1;
 	}
 
-	public double getGPA(String studentId) {
+	public double getGPA(String studentId) throws SQLException {
 		double result = 0;
-		try {
-			String sql = "SELECT AVG(GP.GRADE_POINT) AS GPA " +
-					"FROM STUDENT S, GRADE_POINT GP " +
-					"WHERE S.STUDENT_ID = GP.STUDENT_ID AND S.STUDENT_ID = ?";
-			PreparedStatement ps = conn.prepareStatement(sql);
 
-			ps.setString(1, studentId);
+		String sql = "SELECT AVG(GP.GRADE_POINT) AS GPA " +
+				"FROM STUDENT S, GRADE_POINT GP " +
+				"WHERE S.STUDENT_ID = GP.STUDENT_ID AND S.STUDENT_ID = ?";
+		PreparedStatement ps = conn.prepareStatement(sql);
 
-			ResultSet rs = ps.executeQuery();
+		ps.setString(1, studentId);
 
-			while(rs.next()) {
-				result = rs.getDouble(1);
-			}
+		ResultSet rs = ps.executeQuery();
 
-			rs.close();
-			ps.close();
+		while(rs.next()) {
+			result = rs.getDouble(1);
 		}
-		catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+
+		rs.close();
+		ps.close();
 
 		return result;
 	}
