@@ -117,4 +117,26 @@ public class DepartmentRepository {
 
 		return students;
 	}
+
+	public int countProfessors(String departmentCode) throws SQLException {
+		String sql = "SELECT D.NAME, COUNT(*) " +
+				"FROM DEPARTMENT D, PROFESSOR P " +
+				"WHERE D.DEPARTMENT_CODE = P.DEPARTMENT_CODE AND D.DEPARTMENT_CODE = ? " +
+				"GROUP BY D.DEPARTMENT_CODE, D.NAME";
+		PreparedStatement ps = conn.prepareStatement(sql);
+
+		ps.setString(1, departmentCode);
+
+		ResultSet rs = ps.executeQuery();
+
+		if (!rs.next()) {
+			return 0;
+		}
+		int count = rs.getInt(2);
+
+		rs.close();
+		ps.close();
+
+		return count;
+	}
 }
