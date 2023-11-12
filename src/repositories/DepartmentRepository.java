@@ -168,4 +168,27 @@ public class DepartmentRepository {
 
 		return professors;
 	}
+
+	public List<Professor> getProfessors(String departmentCode) throws SQLException {
+		String sql = "SELECT PROFESSOR_ID, NAME FROM PROFESSOR WHERE DEPARTMENT_CODE = ?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+
+		ps.setString(1, departmentCode);
+
+		ResultSet rs = ps.executeQuery();
+
+		List<Professor> professors = new ArrayList<>();
+		while(rs.next()) {
+			professors.add(new Professor(
+					rs.getString(1),
+					rs.getString(2),
+					departmentCode
+			));
+		}
+
+		rs.close();
+		ps.close();
+
+		return professors;
+	}
 }
