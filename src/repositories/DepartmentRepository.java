@@ -90,4 +90,31 @@ public class DepartmentRepository {
 
 		return students;
 	}
+
+	public List<Student> getHavingGradeStudents(String departmentCode) throws SQLException {
+		List<Student> students = new ArrayList<>();
+
+		String sql = "SELECT S.STUDENT_ID, S.NAME, S.GRADE FROM STUDENT S " +
+				"WHERE S.DEPARTMENT_CODE = ? " +
+				"   AND EXISTS (SELECT * FROM GRADE_POINT GP WHERE GP.STUDENT_ID = S.STUDENT_ID)";
+		PreparedStatement ps = conn.prepareStatement(sql);
+
+		ps.setString(1, departmentCode);
+
+		ResultSet rs = ps.executeQuery();
+
+		while(rs.next()) {
+			students.add(new Student(
+					rs.getString(1),
+					rs.getString(2),
+					rs.getInt(3),
+					departmentCode
+			));
+		}
+
+		rs.close();
+		ps.close();
+
+		return students;
+	}
 }
