@@ -1,6 +1,9 @@
 import dto.ClassInfo;
+import dto.Department;
+import dto.Lecture;
 import dto.TakeClassResult;
 import repositories.AccountRepository;
+import repositories.DepartmentRepository;
 import repositories.TakeClassRepository;
 
 import java.sql.Connection;
@@ -8,7 +11,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleProgram {
@@ -20,6 +22,7 @@ public class ConsoleProgram {
 	private String loginedStudentId = "";
 	private AccountRepository accountRepository;
 	private TakeClassRepository takeClassRepository;
+	private DepartmentRepository departmentRepository;
 
 
 	public ConsoleProgram() {}
@@ -57,6 +60,7 @@ public class ConsoleProgram {
 			// 레포지토리 객체 생성
 			accountRepository = new AccountRepository(conn, stmt);
 			takeClassRepository = new TakeClassRepository(conn, stmt);
+			departmentRepository = new DepartmentRepository(conn, stmt);
 
 			System.out.println("\n\n통합 LMS입니다.");
 
@@ -226,18 +230,8 @@ public class ConsoleProgram {
 								ci.lectureCode + ci.sectionCode, ci.professorName,
 								ci.buildingNumber, ci.roomCode);
 					}
-					System.out.printf("(%d/%d)\n", (i / 10) + 1, (classes.size() / 10) + 1);
-					if ((i / 10) + 1 ==  (classes.size() / 10) + 1) {
-						System.out.println("마지막 페이지입니다. 종료하시려면 엔터를 입력하세요.");
-						sc.nextLine();
-						sc.nextLine();
-						break;
-					}
-					System.out.println("더 보시겠습니까? 그렇다면 1을 입력하세요.");
-
-					if (sc.nextInt() != 1) {
-						break;
-					}
+					System.out.printf("(%d/%d) Enter...\n", (i / 10) + 1, (classes.size() / 10) + 1);
+					sc.nextLine();
 				}
 			}
 			else if (menu == 2) {
@@ -286,6 +280,31 @@ public class ConsoleProgram {
 					else {
 						System.out.println("수강 신청 취소에 실패했습니다.");
 					}
+				}
+			}
+			else if (menu == 4) {
+				sc.nextLine();
+
+				System.out.print("조회할 학과 코드를 입력해주세요 : ");
+				String departmentCode = sc.nextLine();
+
+				Department department = departmentRepository.getDepartment(departmentCode);
+				if (department == null) {
+					System.out.println("해당 학과가 존재하지 않습니다.");
+					continue;
+				}
+				List<Lecture> lectures = departmentRepository.getClassLectures(departmentCode);
+
+				System.out.println(department.name + "의 강의 목록입니다.");
+				for(int i = 0; i < lectures.size(); i += 10) {
+					System.out.printf("%-11s | %-20s | 수강 학점\n", "강의 코드", "강의명");
+					for(int j = i; j < i + 10 && j < lectures.size(); j++) {
+						Lecture lecture = lectures.get(j);
+						System.out.printf("%-11s | %-20s | %d\n", lecture.lectureCode, lecture.name, lecture.credits);
+					}
+
+					System.out.printf("(%d/%d) Enter...\n", (i / 10) + 1, (lectures.size() / 10) + 1);
+					sc.nextLine();
 				}
 			}
 		}
