@@ -17,9 +17,9 @@ public class ConsoleProgram {
 	private AccountRepository accountRepository;
 
 
-	public ConsoleProgram() throws SQLException {}
+	public ConsoleProgram() {}
 
-	public void run() throws SQLException {
+	public void run() {
 		try {
 			System.out.print("Driver Loading: ");
 			// Load a JDBC driver for Oracle DBMS
@@ -43,56 +43,56 @@ public class ConsoleProgram {
 			System.exit(1);
 		}
 
-		conn.setAutoCommit(false); // auto-commit disabled
-		stmt = conn.createStatement();
-
-		sc = new Scanner(System.in);
-
-		// 레포지토리 객체 생성
-		accountRepository = new AccountRepository(conn, stmt);
-
-		System.out.println("\n\n통합 LMS입니다.");
-
-		while(true) {
-			System.out.println();
-			System.out.println("1. 회원 기능");
-			System.out.println("2. 수강신청 기능");
-			System.out.println("3. 수업 기능");
-			System.out.println("4. 강의실 기능");
-			System.out.println("5. 학과 기능");
-			System.out.println("0. 나가기");
-
-			System.out.print("수행할 기능을 입력해주세요 : ");
-			int menu = sc.nextInt();
-
-			if (menu == 0) {
-				System.out.println("시스템을 종료합니다.");
-
-				break;
-			}
-			else if (menu == 1) {
-				accountService();
-			}
-			else if (menu == 2) {
-				takeClassService();
-
-			}
-			else if (menu == 3) {
-				classService();
-
-			}
-			else if (menu == 4) {
-				classroomService();
-
-			}
-			else if (menu == 5) {
-				departmentService();
-			}
-
-			System.out.println();
-		}
-
 		try {
+			conn.setAutoCommit(false); // auto-commit disabled
+			stmt = conn.createStatement();
+
+			sc = new Scanner(System.in);
+
+			// 레포지토리 객체 생성
+			accountRepository = new AccountRepository(conn, stmt);
+
+			System.out.println("\n\n통합 LMS입니다.");
+
+			while(true) {
+				System.out.println();
+				System.out.println("1. 회원 기능");
+				System.out.println("2. 수강신청 기능");
+				System.out.println("3. 수업 기능");
+				System.out.println("4. 강의실 기능");
+				System.out.println("5. 학과 기능");
+				System.out.println("0. 나가기");
+
+				System.out.print("수행할 기능을 입력해주세요 : ");
+				int menu = sc.nextInt();
+
+				if (menu == 0) {
+					System.out.println("시스템을 종료합니다.");
+
+					break;
+				}
+				else if (menu == 1) {
+					accountService();
+				}
+				else if (menu == 2) {
+					takeClassService();
+
+				}
+				else if (menu == 3) {
+					classService();
+
+				}
+				else if (menu == 4) {
+					classroomService();
+
+				}
+				else if (menu == 5) {
+					departmentService();
+				}
+
+				System.out.println();
+			}
+
 			stmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -101,7 +101,7 @@ public class ConsoleProgram {
 		}
 	}
 
-	private void accountService() {
+	private void accountService() throws SQLException {
 		while (true) {
 			System.out.println();
 			System.out.println("1. 로그인 (아이디 : dong, 비밀번호 : dong)");
@@ -194,7 +194,7 @@ public class ConsoleProgram {
 		}
 	}
 
-	private void takeClassService() {
+	private void takeClassService() throws SQLException {
 		while (true) {
 			System.out.println();
 			System.out.println("1. 이번 학기에 개설된 전체 분반 목록 보기");
@@ -211,7 +211,7 @@ public class ConsoleProgram {
 		}
 	}
 
-	private void classService() {
+	private void classService() throws SQLException {
 		while (true) {
 			System.out.println();
 			System.out.println("1. 현재 수강 중인 수업 목록 보기 (Phase2의 4번 쿼리[쿼리 수정 필요])");
@@ -232,7 +232,7 @@ public class ConsoleProgram {
 		}
 	}
 
-	private void classroomService() {
+	private void classroomService() throws SQLException {
 		while (true) {
 			System.out.println();
 			System.out.println("1. 건물 번호 목록 조회");
@@ -247,7 +247,7 @@ public class ConsoleProgram {
 		}
 	}
 
-	private void departmentService() {
+	private void departmentService() throws SQLException {
 		while (true) {
 			System.out.println();
 			System.out.println("1. 특정 과의 학생 목록 조회(Phase2의 3번 쿼리[쿼리 수정 필요])");
