@@ -2,6 +2,7 @@ package repositories;
 
 import dto.Department;
 import dto.Lecture;
+import dto.Professor;
 import dto.Student;
 
 import java.sql.*;
@@ -138,5 +139,33 @@ public class DepartmentRepository {
 		ps.close();
 
 		return count;
+	}
+
+	public List<Professor> getNotTeachProfessors(String departmentCode, int year, String semester) throws SQLException {
+		String sql = "SELECT P.PROFESSOR_ID, P.NAME " +
+				"FROM PROFESSOR P " +
+				"WHERE P.DEPARTMENT_CODE = ? AND " +
+				"  NOT EXISTS (SELECT * FROM CLASS C WHERE C.PROFESSOR_ID = P.PROFESSOR_ID AND C.YEAR = ? AND C.SEMESTER = ?)";
+		PreparedStatement ps = conn.prepareStatement(sql);
+
+		ps.setString(1, departmentCode);
+		ps.setInt(2, year);
+		ps.setString(3, semester);
+
+		ResultSet rs = ps.executeQuery();
+
+		List<Professor> professors = new ArrayList<>();
+		while(rs.next()) {
+			professors.add(new Professor(
+					rs.getString(1),
+					rs.getString(2),
+					departmentCode
+			));
+		}
+
+		rs.close();
+		ps.close();
+
+		return professors;
 	}
 }
