@@ -1,6 +1,7 @@
 package repositories;
 
 import dto.ClassInfo;
+import dto.Comment;
 import dto.Post;
 
 import java.sql.*;
@@ -130,6 +131,140 @@ public class ClassRepository {
 						rs.getString(4),
 						rs.getString(5)
 				);
+			}
+
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return result;
+	}
+
+	public List<Comment> getComments(String lectureCode, String sectionCode, int postId) {
+		List<Comment> result = new ArrayList<>();
+		try {
+			String sql = "(SELECT C.COMMENT_ID, C.CONTENT, S.NAME " +
+					"FROM POST P JOIN POST_COMMENT C ON P.POST_ID = C.POST_ID  " +
+					"JOIN STUDENT S ON S.STUDENT_ID = C.PUBLISHER_STUDENT_ID " +
+					"WHERE P.LECTURE_CODE = ? AND P.SECTION_CODE = ? AND C.POST_ID = ?) " +
+					"UNION " +
+					"(SELECT C.COMMENT_ID, C.CONTENT, PR.NAME " +
+					"FROM POST P JOIN POST_COMMENT C ON P.POST_ID = C.POST_ID  " +
+					"JOIN PROFESSOR PR ON PR.PROFESSOR_ID = C.PUBLISHER_PROFESSOR_ID " +
+					"WHERE P.LECTURE_CODE = ? AND P.SECTION_CODE = ? AND C.POST_ID = ?) ";
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1, lectureCode);
+			ps.setString(2, sectionCode);
+			ps.setInt(3, postId);
+			ps.setString(4, lectureCode);
+			ps.setString(5, sectionCode);
+			ps.setInt(6, postId);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Comment comment = new Comment(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getString(3)
+				);
+				result.add(comment);
+			}
+
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return result;
+	}
+
+	public List<String> getStudents(String lectureCode, String sectionCode) {
+		List<String> result = new ArrayList<>();
+		try {
+			String sql = "SELECT S.NAME " +
+					"FROM STUDENT S, TAKE_CLASS TC, CLASS C " +
+					"WHERE S.STUDENT_ID = TC.STUDENT_ID " +
+					"AND C.LECTURE_CODE = TC.LECTURE_CODE " +
+					"AND C.SECTION_CODE = TC.SECTION_CODE " +
+					"AND C.LECTURE_CODE = ? AND C.SECTION_CODE = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1, lectureCode);
+			ps.setString(2, sectionCode);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				String student = rs.getString(1);
+				result.add(student);
+			}
+
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return result;
+	}
+
+	public int getStudentsCount(String lectureCode, String sectionCode) {
+		int result = 0;
+		try {
+			String sql = "SELECT COUNT(*) " +
+					"FROM STUDENT S, TAKE_CLASS TC, CLASS C " +
+					"WHERE S.STUDENT_ID = TC.STUDENT_ID " +
+					"AND C.LECTURE_CODE = TC.LECTURE_CODE " +
+					"AND C.SECTION_CODE = TC.SECTION_CODE " +
+					"AND C.LECTURE_CODE = ? AND C.SECTION_CODE = ? " +
+					"GROUP BY C.LECTURE_CODE, C.SECTION_CODE";
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1, lectureCode);
+			ps.setString(2, sectionCode);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return result;
+	}
+
+	public List<ClassInfo> getClassByDayOfWeek(int dayOfWeek) {
+		List<ClassInfo> result = new ArrayList<>();
+		try {
+			String sql = "SELECT DISTINCT CT.LECTURE_CODE, CT.SECTION_CODE, L.NAME " +
+					"FROM CLASS_TIME CT, LECTURE L " +
+					"WHERE CT.LECTURE_CODE = L.LECTURE_CODE " +
+					"AND CT.DAYOFWEEK = ?";
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, dayOfWeek);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				ClassInfo classInfo = new ClassInfo(
+						rs.getString(1),
+						rs.getString(2),
+						rs.getString(3)
+				);
+
+				result.add(classInfo);
 			}
 
 			rs.close();

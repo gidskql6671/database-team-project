@@ -1,4 +1,5 @@
 import dto.ClassInfo;
+import dto.Comment;
 import dto.Post;
 import repositories.AccountRepository;
 import repositories.ClassRepository;
@@ -12,7 +13,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleProgram {
-	public static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
+	public static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
 	public static final String USER_UNIVERSITY ="lms";
 	public static final String USER_PASSWD ="lms";
 
@@ -319,6 +320,171 @@ public class ConsoleProgram {
 				System.out.println("작성자 : " + post.publisherName);
 				System.out.println("내용:");
 				System.out.println(post.content);
+			}
+			else if (menu == 4) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				System.out.println();
+				sc.nextLine();
+
+				System.out.print("전체 과목 코드를 입력해주세요 : ");
+				String fullCode = sc.nextLine();
+				String lectureCode = fullCode.substring(0, 8);
+				String sectionCode = fullCode.substring(8);
+
+				if (!classRepository.isTakingClass(loginedStudentId, lectureCode, sectionCode)) {
+					System.out.println("수강하지 않는 과목입니다.");
+					continue;
+				}
+
+				System.out.print("게시글 ID를 입력해주세요 : ");
+				int postId = sc.nextInt();
+
+				List<Comment> comments = classRepository.getComments(lectureCode, sectionCode, postId);
+
+				System.out.println();
+				System.out.println("해당 게시글의 댓글들은 다음과 같습니다.");
+				System.out.printf("%-9s | %-20s | %-20s\n", "댓글 ID", "작성자명", "내용");
+				for (Comment comment : comments) {
+					System.out.printf("%-9s | %-20s | %-20s\n",
+							comment.id, comment.publisherName, comment.content);
+				}
+			}
+			else if (menu == 5) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				System.out.println();
+				sc.nextLine();
+
+				System.out.print("전체 과목 코드를 입력해주세요 : ");
+				String fullCode = sc.nextLine();
+				String lectureCode = fullCode.substring(0, 8);
+				String sectionCode = fullCode.substring(8);
+
+				if (!classRepository.isTakingClass(loginedStudentId, lectureCode, sectionCode)) {
+					System.out.println("수강하지 않는 과목입니다.");
+					continue;
+				}
+
+				List<String> students = classRepository.getStudents(lectureCode, sectionCode);
+
+				System.out.println();
+				System.out.print("해당 과목을 수강중인 학생은 ");
+				if (students.isEmpty()) {
+					System.out.println("없습니다. ");
+				}
+				else {
+					System.out.printf("%s", students.get(0));
+					int size = students.size();
+					for (int i = 1; i < size; i++) {
+						System.out.printf(", %s", students.get(i));
+					}
+					System.out.println("입니다.");
+				}
+			}
+			else if (menu == 6) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				System.out.println();
+				sc.nextLine();
+
+				System.out.print("전체 과목 코드를 입력해주세요 : ");
+				String fullCode = sc.nextLine();
+				String lectureCode = fullCode.substring(0, 8);
+				String sectionCode = fullCode.substring(8);
+
+				if (!classRepository.isTakingClass(loginedStudentId, lectureCode, sectionCode)) {
+					System.out.println("수강 하지 않는 과목입니다.");
+					continue;
+				}
+
+				int studentsCount = classRepository.getStudentsCount(lectureCode, sectionCode);
+
+				System.out.println();
+				System.out.printf("해당 과목을 수강 중인 학생 수는 %d명 입니다.\n", studentsCount);
+			}
+			else if (menu == 7) { // 4번과 중복???
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				System.out.println();
+				sc.nextLine();
+
+//				System.out.print("전체 과목 코드를 입력해주세요 : ");
+//				String fullCode = sc.nextLine();
+//				String lectureCode = fullCode.substring(0, 8);
+//				String sectionCode = fullCode.substring(8);
+//
+//				if (!classRepository.isTakingClass(loginedStudentId, lectureCode, sectionCode)) {
+//					System.out.println("수강 하지 않는 과목입니다.");
+//					continue;
+//				}
+//
+//				int studentsCount = classRepository.getStudentsCount(lectureCode, sectionCode);
+//
+//				System.out.printf("해당 과목을 수강 중인 학생 수는 %d명 입니다.\n", studentsCount);
+			}
+			else if (menu == 8) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				System.out.println();
+				sc.nextLine();
+
+				System.out.print("요일을 숫자로 입력해주세요(월요일: 1, 화요일: 2, 수요일: 3, 목요일: 4, 금요일: 5) : ");
+				int dayOfWeek = sc.nextInt();
+
+				if (dayOfWeek < 1 || dayOfWeek > 5) {
+					System.out.println("올바른 숫자로 요일을 입력해 주세요.");
+				}
+				else {
+					List<ClassInfo> classInfos = classRepository.getClassByDayOfWeek(dayOfWeek);
+
+					String day = "";
+					if (dayOfWeek == 1) {
+						day = "월요일";
+					}
+					else if (dayOfWeek == 2) {
+						day = "화요일";
+					}
+					else if (dayOfWeek == 3) {
+						day = "수요일";
+					}
+					else if (dayOfWeek == 4) {
+						day = "목요일";
+					}
+					else {
+						day = "금요일";
+					}
+					System.out.println();
+					System.out.printf("%s에 진행되는 강의 목록은 ", day);
+					if (classInfos.isEmpty()) {
+						System.out.println("없습니다.");
+					}
+					else {
+						System.out.printf("'%s'(%s%s)",
+								classInfos.get(0).name, classInfos.get(0).lectureCode, classInfos.get(0).sectionCode);
+						int size = classInfos.size();
+						for (int i = 1; i < size; i++) {
+							System.out.printf(", '%s'(%s%s)",
+									classInfos.get(i).name, classInfos.get(i).lectureCode, classInfos.get(i).sectionCode);
+						}
+						System.out.println("입니다.");
+					}
+				}
 			}
 		}
 	}
