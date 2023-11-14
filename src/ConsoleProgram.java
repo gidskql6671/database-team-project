@@ -319,8 +319,7 @@ public class ConsoleProgram {
 			System.out.println("4. 특정 게시글의 댓글 목록 보기");
 			System.out.println("5. 어느 한 수업의 수강생 목록 보기");
 			System.out.println("6. 어느 한 수업의 수강생 수 보기 (5번 쿼리)");
-			System.out.println("7. 특정 게시글의 댓글 목록 보기");
-			System.out.println("8. 특정 요일에 진행되는 강의 목록 보기 (11번 쿼리)");
+			System.out.println("7. 특정 요일에 진행되는 강의 목록 보기 (11번 쿼리)");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[수업 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
@@ -503,30 +502,7 @@ public class ConsoleProgram {
 				System.out.println();
 				System.out.printf("해당 과목을 수강 중인 학생 수는 %d명 입니다.\n", studentsCount);
 			}
-			else if (menu == 7) { // 4번과 중복???
-				if (loginedStudentId.equals("")) {
-					System.out.println("로그인을 먼저 해야합니다.");
-					continue;
-				}
-
-				System.out.println();
-				sc.nextLine();
-
-//				System.out.print("전체 과목 코드를 입력해주세요 : ");
-//				String fullCode = sc.nextLine();
-//				String lectureCode = fullCode.substring(0, 8);
-//				String sectionCode = fullCode.substring(8);
-//
-//				if (!classRepository.isTakingClass(loginedStudentId, lectureCode, sectionCode)) {
-//					System.out.println("수강 하지 않는 과목입니다.");
-//					continue;
-//				}
-//
-//				int studentsCount = classRepository.getStudentsCount(lectureCode, sectionCode);
-//
-//				System.out.printf("해당 과목을 수강 중인 학생 수는 %d명 입니다.\n", studentsCount);
-			}
-			else if (menu == 8) {
+			else if (menu == 7) {
 				if (loginedStudentId.equals("")) {
 					System.out.println("로그인을 먼저 해야합니다.");
 					continue;
