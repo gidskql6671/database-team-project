@@ -322,9 +322,9 @@ public class ConsoleProgram {
 		while (true) {
 			System.out.println();
 			System.out.println("1. 현재 수강 중인 수업 목록 보기 (4번 쿼리)");
-			System.out.println("2. 어느 한 수업의 게시글 목록 보기");
-			System.out.println("3. 특정 게시글 보기");
-			System.out.println("4. 특정 게시글의 댓글 목록 보기");
+			System.out.println("2. 수강 중인 수업의 게시글 목록 보기");
+			System.out.println("3. 수강 중인 수업의 게시글 보기");
+			System.out.println("4. 수강 중인 수업의 게시글의 댓글 목록 보기");
 			System.out.println("5. 어느 한 수업의 수강생 목록 보기");
 			System.out.println("6. 어느 한 수업의 수강생 수 보기 (5번 쿼리)");
 			System.out.println("7. 특정 요일에 진행되는 강의 목록 보기 (11번 쿼리)");
