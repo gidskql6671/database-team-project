@@ -30,7 +30,16 @@ public class TakeClassRepository {
 
 		List<ClassInfo> result = new ArrayList<>();
 		while(rs.next()) {
-			result.add(ClassInfo.fromResultSet(rs));
+			result.add(new ClassInfo(
+					rs.getString(1),
+					rs.getString(2),
+					rs.getString(3),
+					rs.getString(4),
+					rs.getString(5),
+					rs.getInt(6),
+					rs.getString(7),
+					""
+			));
 		}
 
 		rs.close();
