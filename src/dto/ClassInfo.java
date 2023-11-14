@@ -11,8 +11,9 @@ public class ClassInfo {
 	public String departmentCode;
 	public int buildingNumber;
 	public String roomCode;
+	public String lectureName;
 
-	public ClassInfo(String lectureCode, String sectionCode, String professorId, String professorName, String departmentCode, int buildingNumber, String roomCode) {
+	public ClassInfo(String lectureCode, String sectionCode, String professorId, String professorName, String departmentCode, int buildingNumber, String roomCode, String lectureName) {
 		this.lectureCode = lectureCode;
 		this.sectionCode = sectionCode;
 		this.professorId = professorId;
@@ -20,17 +21,31 @@ public class ClassInfo {
 		this.departmentCode = departmentCode;
 		this.buildingNumber = buildingNumber;
 		this.roomCode = roomCode;
+		this.lectureName = lectureName;
 	}
 
-	public static ClassInfo fromResultSet(ResultSet rs) throws SQLException {
-		return new ClassInfo(
-				rs.getString(1),
-				rs.getString(2),
-				rs.getString(3),
-				rs.getString(4),
-				rs.getString(5),
-				rs.getInt(6),
-				rs.getString(7)
+	public ClassInfo(String lectureCode, String sectionCode, String professorId, String professorName, String departmentCode, int buildingNumber, String roomCode) {
+		this(
+				lectureCode,
+				sectionCode,
+				professorId,
+				professorName,
+				departmentCode,
+				buildingNumber,
+				roomCode,
+				""
+		);
+	}
+	public ClassInfo(String lectureCode, String sectionCode, String lectureName) {
+		this(
+				lectureCode,
+				sectionCode,
+				"",
+				"",
+				"",
+				0,
+				"",
+				lectureName
 		);
 	}
 }

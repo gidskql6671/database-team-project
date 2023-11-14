@@ -9,11 +9,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleProgram {
-	public static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+	public static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
 	public static final String USER_UNIVERSITY ="lms";
 	public static final String USER_PASSWD ="lms";
 
@@ -343,12 +342,12 @@ public class ConsoleProgram {
 				}
 				else {
 					System.out.printf("'%s'(%s%s)",
-							takingClasses.get(0).name,
+							takingClasses.get(0).lectureName,
 							takingClasses.get(0).lectureCode,
 							takingClasses.get(0).sectionCode);
 					for(int i = 1; i < takingClasses.size(); i++) {
 						System.out.printf(", '%s'(%s%s)",
-								takingClasses.get(i).name,
+								takingClasses.get(i).lectureName,
 								takingClasses.get(i).lectureCode,
 								takingClasses.get(i).sectionCode);
 					}
@@ -568,11 +567,11 @@ public class ConsoleProgram {
 					}
 					else {
 						System.out.printf("'%s'(%s%s)",
-								classInfos.get(0).name, classInfos.get(0).lectureCode, classInfos.get(0).sectionCode);
+								classInfos.get(0).lectureName, classInfos.get(0).lectureCode, classInfos.get(0).sectionCode);
 						int size = classInfos.size();
 						for (int i = 1; i < size; i++) {
 							System.out.printf(", '%s'(%s%s)",
-									classInfos.get(i).name, classInfos.get(i).lectureCode, classInfos.get(i).sectionCode);
+									classInfos.get(i).lectureName, classInfos.get(i).lectureCode, classInfos.get(i).sectionCode);
 						}
 						System.out.println("입니다.");
 					}
