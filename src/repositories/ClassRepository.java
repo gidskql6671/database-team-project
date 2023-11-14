@@ -1,10 +1,9 @@
 package repositories;
 
-import dto.ClassInfo;
-import dto.Comment;
-import dto.Post;
+import dto.*;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -274,5 +273,45 @@ public class ClassRepository {
 		}
 
 		return result;
+	}
+
+	public WriteComment writeComment(int postId, String content, String publisherStudentId) {
+		try {
+			String sql = "SELECT COMMENT_ID " +
+					"FROM POST_COMMENT " +
+					"WHERE ROWNUM = 1 " +
+					"ORDER BY COMMENT_ID DESC";
+
+			ResultSet rs = stmt.executeQuery(sql);
+			int newCommentId;
+			if (!rs.next()) {
+				newCommentId = 1;
+			}
+			else {
+				newCommentId = rs.getInt(1) + 1;
+			}
+			LocalDateTime createdAt = LocalDateTime.now();
+
+			sql = "INSERT INTO POST_COMMENT VALUES (?, ?, ?, ?, ?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, newCommentId);
+			ps.setDate(2, Date.valueOf(createdAt.toLocalDate()));
+			ps.setString(3, content);
+			ps.setInt(4, postId);
+			ps.setString(5, publisherStudentId);
+			ps.setNull(6, Types.VARCHAR);
+
+			int insertResult = ps.executeUpdate();
+
+			if (insertResult == 0) {
+				return WriteComment.failWritePost("알 수 없음.");
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return WriteComment.successWritePost();
 	}
 }
