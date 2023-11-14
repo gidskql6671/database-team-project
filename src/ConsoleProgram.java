@@ -328,6 +328,7 @@ public class ConsoleProgram {
 			System.out.println("5. 어느 한 수업의 수강생 목록 보기");
 			System.out.println("6. 어느 한 수업의 수강생 수 보기 (5번 쿼리)");
 			System.out.println("7. 특정 요일에 진행되는 강의 목록 보기 (11번 쿼리)");
+			System.out.println("8. 수강 중인 수업의 게시글에 댓글 작성");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[수업 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
@@ -408,6 +409,7 @@ public class ConsoleProgram {
 					continue;
 				}
 
+				System.out.println();
 				System.out.print("게시글 ID를 입력해주세요 : ");
 				int postId = sc.nextInt();
 
@@ -438,6 +440,7 @@ public class ConsoleProgram {
 					continue;
 				}
 
+				System.out.println();
 				System.out.print("게시글 ID를 입력해주세요 : ");
 				int postId = sc.nextInt();
 
@@ -559,6 +562,45 @@ public class ConsoleProgram {
 						}
 						System.out.println("입니다.");
 					}
+				}
+			}
+			else if (menu == 8) {
+				if (loginedStudentId.equals("")) {
+					System.out.println("로그인을 먼저 해야합니다.");
+					continue;
+				}
+
+				System.out.println();
+				sc.nextLine();
+
+				System.out.print("전체 과목 코드를 입력해주세요 : ");
+				String fullCode = sc.nextLine();
+				String lectureCode = fullCode.substring(0, 8);
+				String sectionCode = fullCode.substring(8);
+
+				if (!classRepository.isTakingClass(loginedStudentId, lectureCode, sectionCode)) {
+					System.out.println("수강하지 않는 과목입니다.");
+					continue;
+				}
+
+				System.out.println();
+				System.out.print("게시글 ID를 입력해주세요 : ");
+				int postId = sc.nextInt();
+				sc.nextLine();
+
+				System.out.println();
+				System.out.print("댓글 내용을 입력해주세요 : ");
+				String content = sc.nextLine();
+
+				WriteComment result = classRepository.writeComment(postId, content, loginedStudentId);
+
+				System.out.println();
+
+				if (result.isSuccess) {
+					System.out.println("댓글 작성에 성공했습니다.");
+				}
+				else {
+					System.out.println("댓글 작성에 실패했습니다. 사유 : " + result.message);
 				}
 			}
 		}
