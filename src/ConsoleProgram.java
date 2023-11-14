@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleProgram {
-	public static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
-	public static final String USER_UNIVERSITY ="lms";
-	public static final String USER_PASSWD ="lms";
+	public String URL;
+	public String USER_NAME ="lms";
+	public String USER_PASSWD ="lms";
 
 	Scanner sc;
 	private String loginedStudentId = "";
@@ -24,7 +24,17 @@ public class ConsoleProgram {
 	private DepartmentRepository departmentRepository;
 
 
-	public ConsoleProgram() {}
+	public ConsoleProgram() {
+		sc = new Scanner(System.in);
+
+		System.out.print("Oracle SID를 입력해주세요.(기본값 : XE) : ");
+		String sid = sc.nextLine();
+		if (sid.equals("")) {
+			sid = "XE";
+		}
+
+		this.URL = "jdbc:oracle:thin:@localhost:1521:" + sid;
+	}
 
 	public void run() {
 		try {
@@ -41,7 +51,7 @@ public class ConsoleProgram {
 		Connection conn = null;
 		Statement stmt = null;
 		try{
-			conn = DriverManager.getConnection(URL, USER_UNIVERSITY, USER_PASSWD);
+			conn = DriverManager.getConnection(URL, USER_NAME, USER_PASSWD);
 			System.out.println("Oracle Connected.");
 		}catch(SQLException ex) {
 			ex.printStackTrace();
@@ -54,13 +64,11 @@ public class ConsoleProgram {
 			conn.setAutoCommit(false); // auto-commit disabled
 			stmt = conn.createStatement();
 
-			sc = new Scanner(System.in);
-
 			// 레포지토리 객체 생성
 			accountRepository = new AccountRepository(conn, stmt);
 			takeClassRepository = new TakeClassRepository(conn, stmt);
 			departmentRepository = new DepartmentRepository(conn, stmt);
-      classRepository = new ClassRepository(conn, stmt);
+			classRepository = new ClassRepository(conn, stmt);
 
 			System.out.println("\n\n통합 LMS입니다.");
 
