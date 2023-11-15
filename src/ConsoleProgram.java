@@ -272,7 +272,7 @@ public class ConsoleProgram {
 
 				sc.nextLine();
 
-				System.out.print("수강 신청할 전체 과목 코드를 입력해주세요 : ");
+				System.out.print("수강 취소할 전체 과목 코드를 입력해주세요 : ");
 				String fullCode = sc.nextLine();
 				String lectureCode = fullCode.substring(0, 8);
 				String sectionCode = fullCode.substring(8);
