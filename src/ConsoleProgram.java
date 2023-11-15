@@ -1,8 +1,5 @@
 import dto.*;
-import repositories.AccountRepository;
-import repositories.DepartmentRepository;
-import repositories.TakeClassRepository;
-import repositories.ClassRepository;
+import repositories.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +19,7 @@ public class ConsoleProgram {
 	private ClassRepository classRepository;
 	private TakeClassRepository takeClassRepository;
 	private DepartmentRepository departmentRepository;
+	private ClassroomRepository classroomRepository;
 
 
 	public ConsoleProgram() {
@@ -69,6 +67,7 @@ public class ConsoleProgram {
 			takeClassRepository = new TakeClassRepository(conn, stmt);
 			departmentRepository = new DepartmentRepository(conn, stmt);
 			classRepository = new ClassRepository(conn, stmt);
+			classroomRepository = new ClassroomRepository(conn, stmt);
 
 			System.out.println("\n\n통합 LMS입니다.");
 
@@ -575,6 +574,18 @@ public class ConsoleProgram {
 
 			if (menu == 0) {
 				break;
+			}
+			else if (menu == 1) {
+				// getBuilding
+				List<Classroom> buildings = classroomRepository.getBuildings();
+
+				for (Classroom building : buildings) {
+					System.out.printf("%d ", building.buildingNumber);
+				}
+			}
+			else if (menu == 2) {
+				break;
+				//getClassroomByBuilding
 			}
 		}
 	}
