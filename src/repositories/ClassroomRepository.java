@@ -15,27 +15,6 @@ public class ClassroomRepository {
         this.stmt = stmt;
     }
 
-    public List<Classroom> getClassroomByBuilding(int buildingNumber) throws SQLException {
-        String sql = "SELECT ROOM_CODE, NAME FROM CLASSROOM WHERE BUILDING_NUMBER = ? ";
-
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setInt(1, buildingNumber);
-        ResultSet rs = ps.executeQuery();
-
-        List<Classroom> building = new ArrayList<>();
-        while(rs.next()) {
-            building.add(new Classroom(
-                    rs.getInt(1)
-            ));
-        }
-
-        rs.close();
-        ps.close();
-
-        return building;
-    }
-
     public List<Classroom> getBuildings() throws SQLException {
         String sql = "SELECT DISTINCT BUILDING_NUMBER FROM CLASSROOM ";
 
@@ -54,5 +33,28 @@ public class ClassroomRepository {
 
         return building;
     }
+
+    public List<Classroom> getClassroomByBuilding(int buildingNumber) throws SQLException {
+        String sql = "SELECT ROOM_CODE, NAME FROM CLASSROOM WHERE BUILDING_NUMBER = ? ";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, buildingNumber);
+        ResultSet rs = ps.executeQuery();
+
+        List<Classroom> classrooms = new ArrayList<>();
+        while(rs.next()) {
+            classrooms.add(new Classroom(
+                    rs.getString(1)
+            ));
+        }
+
+        rs.close();
+        ps.close();
+
+        return classrooms;
+    }
+
+
 
 }

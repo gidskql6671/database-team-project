@@ -618,7 +618,6 @@ public class ConsoleProgram {
 				break;
 			}
 			else if (menu == 1) {
-				// getBuilding
 				List<Classroom> buildings = classroomRepository.getBuildings();
 
 				System.out.printf("건물 번호 목록을 조회합니다.\n |");
@@ -627,8 +626,27 @@ public class ConsoleProgram {
 				}
 			}
 			else if (menu == 2) {
-				break;
-				//getClassroomByBuilding
+				System.out.print("강의실 목록을 조회할 건물 번호를 입력해주세요 : ");
+				int buildingNum = sc.nextInt();
+
+				List<Classroom> classrooms = classroomRepository.getClassroomByBuilding(buildingNum);
+
+				if(classrooms.isEmpty()) {
+					System.out.printf("%d번 건물은 존재하지 않습니다.", buildingNum);
+				}
+				else {
+					System.out.printf("%d번 건물의 강의실 목록을 조회합니다.\n", buildingNum);
+					int count = 0;
+					for (Classroom classroom : classrooms) {
+						System.out.printf("%4s |",classroom.name);
+						count++;
+						if (count % 10 == 0) {
+							System.out.println();
+						}
+					}
+				}
+
+
 			}
 		}
 	}
