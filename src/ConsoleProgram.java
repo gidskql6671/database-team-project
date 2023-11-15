@@ -621,8 +621,9 @@ public class ConsoleProgram {
 				// getBuilding
 				List<Classroom> buildings = classroomRepository.getBuildings();
 
+				System.out.printf("건물 번호 목록을 조회합니다.\n |");
 				for (Classroom building : buildings) {
-					System.out.printf("%d ", building.buildingNumber);
+					System.out.printf("%4d |", building.buildingNumber);
 				}
 			}
 			else if (menu == 2) {
