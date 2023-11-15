@@ -614,16 +614,19 @@ public class ConsoleProgram {
 			System.out.print("[강의실 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
 
+			System.out.println();
+
 			if (menu == 0) {
 				break;
 			}
 			else if (menu == 1) {
 				List<Classroom> buildings = classroomRepository.getBuildings();
 
-				System.out.printf("건물 번호 목록을 조회합니다.\n |");
+				System.out.printf("건물 번호 목록을 조회합니다.\n|");
 				for (Classroom building : buildings) {
-					System.out.printf("%4d |", building.buildingNumber);
+					System.out.printf(" %d |", building.buildingNumber);
 				}
+				System.out.println();
 			}
 			else if (menu == 2) {
 				System.out.print("강의실 목록을 조회할 건물 번호를 입력해주세요 : ");
@@ -632,17 +635,21 @@ public class ConsoleProgram {
 				List<Classroom> classrooms = classroomRepository.getClassroomByBuilding(buildingNum);
 
 				if(classrooms.isEmpty()) {
-					System.out.printf("%d번 건물은 존재하지 않습니다.", buildingNum);
+					System.out.printf("%d번 건물은 존재하지 않습니다.\n", buildingNum);
 				}
 				else {
 					System.out.printf("%d번 건물의 강의실 목록을 조회합니다.\n", buildingNum);
 					int count = 0;
 					for (Classroom classroom : classrooms) {
-						System.out.printf("%4s |",classroom.name);
+						System.out.printf(" %-4s |", classroom.name);
 						count++;
 						if (count % 10 == 0) {
 							System.out.println();
 						}
+					}
+
+					if (count % 10 != 0) {
+						System.out.println();
 					}
 				}
 
