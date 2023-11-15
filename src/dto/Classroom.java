@@ -18,5 +18,13 @@ public class Classroom {
                 ""
         );
     }
+
+    public Classroom(String name) {
+        this(
+                0,
+                "",
+                name
+        );
+    }
 }
 
