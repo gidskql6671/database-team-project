@@ -665,12 +665,16 @@ public class ConsoleProgram {
 			System.out.println("2. 특정 과의 성적을 한번 이상 받은 학생 목록 조회 (9번 쿼리)");
 			System.out.println("3. 특정 과의 교수의 수 조회(6번 쿼리)");
 			System.out.println("4. 특정 과의 교수 목록 조회");
-			System.out.println("5. 특정 학기에 수업을 진행하지 않는 특정 과의 교수 목록 조회 (10번 쿼리)");
+			System.out.println("5. 이번 학기에 수업을 진행하지 않는 특정 과의 교수 목록 조회 (10번 쿼리)");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("[학과 기능] 수행할 기능을 입력해주세요 : ");
 			int menu = sc.nextInt();
-			System.out.println();
 
+			if (menu == 0) {
+				break;
+			}
+
+			System.out.println();
 			sc.nextLine();
 
 			System.out.print("조회할 학과 코드를 입력해주세요 : ");
@@ -682,10 +686,7 @@ public class ConsoleProgram {
 				continue;
 			}
 
-			if (menu == 0) {
-				break;
-			}
-			else if (menu == 1) {
+			if (menu == 1) {
 				List<Student> students = departmentRepository.getStudents(departmentCode);
 
 				System.out.println(department.name + "의 학생 목록입니다.");
