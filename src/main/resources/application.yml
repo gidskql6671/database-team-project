@@ -1,0 +1,13 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+spring:
+  config:
+    import:
+      - classpath:/secrets.yml
+#      - optional:classpath:/secrets.yml
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
