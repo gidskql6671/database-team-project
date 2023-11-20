@@ -15,7 +15,7 @@ public class AccountRepository {
 
 	public String login(String loginId, String password) throws SQLException {
 		Connection conn = dataSource.getConnection();
-		String result = "";
+		String result = null;
 
 		String sql =
 			"SELECT STUDENT_ID " +
