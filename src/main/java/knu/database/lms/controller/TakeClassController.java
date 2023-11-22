@@ -38,4 +38,20 @@ public class TakeClassController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, result.message);
 		}
 	}
+
+	@DeleteMapping
+	public void unTakeClass(
+			@RequestBody TakeClassRequestDto req,
+			@SessionAttribute(name = "userId", required = false) String userId
+	) throws SQLException {
+		if (userId == null) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+		}
+
+		boolean result = takeClassRepository.untakeClass(userId, req.getLectureCode(), req.getSectionCode());
+
+		if (!result) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수강 신청 취소가 실패했습니다.");
+		}
+	}
 }
