@@ -5,7 +5,10 @@ import knu.database.lms.dto.TakeClassResult;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,42 @@ public class TakeClassRepository {
 
 		ps.setInt(1, year);
 		ps.setString(2, semester);
+
+		ResultSet rs = ps.executeQuery();
+
+		List<ClassInfo> result = new ArrayList<>();
+		while(rs.next()) {
+			result.add(new ClassInfo(
+					rs.getString(1),
+					rs.getString(2),
+					rs.getString(3),
+					rs.getString(4),
+					rs.getString(5),
+					rs.getInt(6),
+					rs.getString(7),
+					""
+			));
+		}
+
+		rs.close();
+		ps.close();
+		conn.close();
+
+		return result;
+	}
+
+	public List<ClassInfo> getClassesOf(String departmentCode, int year, String semester) throws SQLException {
+		Connection conn = dataSource.getConnection();
+
+		String sql =
+				"SELECT LECTURE_CODE, SECTION_CODE, C.PROFESSOR_ID, NAME, C.DEPARTMENT_CODE, BUILDING_NUMBER, ROOM_CODE " +
+						"FROM CLASS C JOIN PROFESSOR P ON C.PROFESSOR_ID = P.PROFESSOR_ID " +
+						"WHERE YEAR = ? AND SEMESTER = ? AND LECTURE_CODE LIKE ? ";
+		PreparedStatement ps = conn.prepareStatement(sql);
+
+		ps.setInt(1, year);
+		ps.setString(2, semester);
+		ps.setString(3, departmentCode + "%");
 
 		ResultSet rs = ps.executeQuery();
 
