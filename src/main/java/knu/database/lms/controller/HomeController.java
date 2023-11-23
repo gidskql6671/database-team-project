@@ -8,6 +8,8 @@ import knu.database.lms.repositories.TakeClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -55,7 +57,7 @@ public class HomeController {
 		mav.setViewName("sugang");
 
 		List<ClassInfo> classInfos;
-		if (departmentCode == null) {
+		if (departmentCode == null || departmentCode.equals("")) {
 			classInfos = takeClassRepository.getClasses(2023, "2");
 		}
 		else {
@@ -70,5 +72,14 @@ public class HomeController {
 		mav.addObject("classInfos", classInfos);
 
 		return mav;
+	}
+
+	@ExceptionHandler(ResponseStatusException.class)
+	@GetMapping("/error")
+	public String handleError(ResponseStatusException e, Model model) {
+		model.addAttribute("code", e.getStatusCode());
+		model.addAttribute("msg", e.getMessage());
+
+		return "error";
 	}
 }
