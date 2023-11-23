@@ -24,9 +24,9 @@ public class TakeClassRepository {
 		Connection conn = dataSource.getConnection();
 
 		String sql =
-			"SELECT LECTURE_CODE, SECTION_CODE, C.PROFESSOR_ID, NAME, C.DEPARTMENT_CODE, BUILDING_NUMBER, ROOM_CODE " +
-				"FROM CLASS C JOIN PROFESSOR P ON C.PROFESSOR_ID = P.PROFESSOR_ID " +
-				"WHERE YEAR = ? AND SEMESTER = ? ";
+			"SELECT C.LECTURE_CODE, SECTION_CODE, C.PROFESSOR_ID, P.NAME, C.DEPARTMENT_CODE, BUILDING_NUMBER, ROOM_CODE, L.NAME " +
+				"FROM (CLASS C JOIN PROFESSOR P ON C.PROFESSOR_ID = P.PROFESSOR_ID) JOIN LECTURE L ON C.LECTURE_CODE = L.LECTURE_CODE " +
+				"WHERE YEAR = ? AND SEMESTER = ?";
 		PreparedStatement ps = conn.prepareStatement(sql);
 
 		ps.setInt(1, year);
@@ -44,7 +44,7 @@ public class TakeClassRepository {
 					rs.getString(5),
 					rs.getInt(6),
 					rs.getString(7),
-					""
+					rs.getString(8)
 			));
 		}
 
@@ -59,9 +59,9 @@ public class TakeClassRepository {
 		Connection conn = dataSource.getConnection();
 
 		String sql =
-				"SELECT LECTURE_CODE, SECTION_CODE, C.PROFESSOR_ID, NAME, C.DEPARTMENT_CODE, BUILDING_NUMBER, ROOM_CODE " +
-						"FROM CLASS C JOIN PROFESSOR P ON C.PROFESSOR_ID = P.PROFESSOR_ID " +
-						"WHERE YEAR = ? AND SEMESTER = ? AND LECTURE_CODE LIKE ? ";
+				"SELECT C.LECTURE_CODE, SECTION_CODE, C.PROFESSOR_ID, P.NAME, C.DEPARTMENT_CODE, BUILDING_NUMBER, ROOM_CODE, L.NAME " +
+						"FROM (CLASS C JOIN PROFESSOR P ON C.PROFESSOR_ID = P.PROFESSOR_ID) JOIN LECTURE L ON C.LECTURE_CODE = L.LECTURE_CODE " +
+						"WHERE YEAR = ? AND SEMESTER = ? AND C.LECTURE_CODE LIKE ? ";
 		PreparedStatement ps = conn.prepareStatement(sql);
 
 		ps.setInt(1, year);
@@ -80,7 +80,7 @@ public class TakeClassRepository {
 					rs.getString(5),
 					rs.getInt(6),
 					rs.getString(7),
-					""
+					rs.getString(8)
 			));
 		}
 
