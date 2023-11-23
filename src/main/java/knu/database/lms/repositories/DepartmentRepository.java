@@ -7,7 +7,10 @@ import knu.database.lms.dto.Student;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +49,7 @@ public class DepartmentRepository {
 		return department;
 	}
 
-	public List<Lecture> getClassLectures(String departmentCode) throws SQLException {
+	public List<Lecture> getLectures(String departmentCode) throws SQLException {
 		Connection conn = dataSource.getConnection();
 
 		List<Lecture> lectures = new ArrayList<>();
