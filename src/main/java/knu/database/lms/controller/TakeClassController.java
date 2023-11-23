@@ -1,8 +1,11 @@
 package knu.database.lms.controller;
 
 import knu.database.lms.dto.ClassInfo;
+import knu.database.lms.dto.Department;
 import knu.database.lms.dto.TakeClassResult;
+import knu.database.lms.dto.controller.GetClassesRequest;
 import knu.database.lms.dto.controller.TakeClassRequestDto;
+import knu.database.lms.repositories.DepartmentRepository;
 import knu.database.lms.repositories.TakeClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,10 +20,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TakeClassController {
 	private final TakeClassRepository takeClassRepository;
+	private final DepartmentRepository departmentRepository;
 
 	@GetMapping("/class")
-	public List<ClassInfo> getClasses() throws SQLException {
-		return takeClassRepository.getClasses(2023, "2");
+	public List<ClassInfo> getClasses(@RequestBody GetClassesRequest req) throws SQLException {
+		if (req.getDepartmentCode() == null) {
+			return takeClassRepository.getClasses(2023, "2");
+		}
+		else {
+			Department department = departmentRepository.getDepartment(req.getDepartmentCode());
+			if (department == null) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 학과가 존재하지 않습니다.");
+			}
+
+			return takeClassRepository.getClassesOf(req.getDepartmentCode(), 2023, "2");
+		}
 	}
 
 	@PostMapping
