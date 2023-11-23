@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>LMS</title>
@@ -8,8 +8,38 @@
 <body>
 <header>
     <a href="/"> <img src="/image/lms.png" /> </a>
+    <h1> 수강신청 페이지 </h1>
 </header>
 <main>
+    <div class="sugang_container">
+
+    </div>
+    <div class="class_container">
+        <div class="class_search">
+            <h2> 검색 창 </h2>
+        </div>
+        <div class="class_list">
+            <h2> 개설된 수업 목록 </h2>
+            <table>
+                <th>lectureCode</th>
+                <th>sectionCode</th>
+                <th>강의명</th>
+                <th>professorName</th>
+                <th>건물 번호</th>
+                <th>강의실</th>
+                <th:block th:each="classInfo : ${classInfos}">
+                    <tr>
+                        <td th:text="${classInfo.lectureCode}"></td>
+                        <td th:text="${classInfo.sectionCode}"></td>
+                        <td th:text="${classInfo.lectureName}"></td>
+                        <td th:text="${classInfo.professorName}"></td>
+                        <td th:text="${classInfo.buildingNumber}"></td>
+                        <td th:text="${classInfo.roomCode}"></td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+    </div>
 </main>
 <footer>
 
