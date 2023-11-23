@@ -26,4 +26,18 @@ public class HomeController {
 
 		return mav;
 	}
+
+	@GetMapping("/sugang")
+	public ModelAndView sugangPage(@SessionAttribute(name = "userId", required = false) String userId) {
+		ModelAndView mav = new ModelAndView();
+
+		if (userId == null) {
+			mav.setViewName("redirect:/");
+		}
+		else {
+			mav.setViewName("sugang");
+		}
+
+		return mav;
+	}
 }
