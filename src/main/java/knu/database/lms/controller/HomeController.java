@@ -61,6 +61,7 @@ public class HomeController {
 			classInfos = takeClassRepository.getClasses(2023, "2");
 		}
 		else {
+			departmentCode = departmentCode.toUpperCase();
 			Department department = departmentRepository.getDepartment(departmentCode);
 			if (department == null) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 학과가 존재하지 않습니다.");
