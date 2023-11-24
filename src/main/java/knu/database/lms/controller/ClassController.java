@@ -3,7 +3,6 @@ package knu.database.lms.controller;
 import knu.database.lms.dto.*;
 import knu.database.lms.repositories.ClassRepository;
 import lombok.RequiredArgsConstructor;
-import oracle.ucp.proxy.annotation.GetProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,7 +19,7 @@ public class ClassController {
     // 1. 현재 수강 중인 수업 목록 보기 (4번 쿼리)
     @GetMapping
     public List<ClassInfo> getClassList(@SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
-        isLogined(userId);
+        isLogin(userId);
        return classRepository.getTakingClass(userId);
     }
 
@@ -28,7 +27,7 @@ public class ClassController {
     @GetMapping("/{lectureCode}/{sectionCode}/post")
     public List<Post> getClassPostList(@SessionAttribute(name = "userId", required = false) String userId,
                                        @PathVariable String lectureCode, @PathVariable String sectionCode) throws SQLException {
-        isLogined(userId);
+        isLogin(userId);
         isTakingClass(userId, lectureCode, sectionCode);
         return classRepository.getPosts(lectureCode, sectionCode);
     }
@@ -38,7 +37,7 @@ public class ClassController {
     public Post getClassPost(@SessionAttribute(name = "userId", required = false) String userId,
                              @PathVariable String lectureCode, @PathVariable String sectionCode,
                              @PathVariable int postId) throws SQLException {
-        isLogined(userId);
+        isLogin(userId);
         isTakingClass(userId, lectureCode, sectionCode);
         return classRepository.getPost(lectureCode, sectionCode, postId);
     }
@@ -48,7 +47,7 @@ public class ClassController {
     public List<Comment> getCommentList(@SessionAttribute(name = "userId", required = false) String userId,
                                         @PathVariable String lectureCode, @PathVariable String sectionCode,
                                         @PathVariable int postId) throws SQLException {
-        isLogined(userId);
+        isLogin(userId);
         isTakingClass(userId, lectureCode, sectionCode);
         return classRepository.getComments(lectureCode, sectionCode, postId);
     }
@@ -57,7 +56,7 @@ public class ClassController {
     @GetMapping("/{lectureCode}/{sectionCode}/students")
     public List<String> getTakingClassStudentList(@SessionAttribute(name = "userId", required = false) String userId,
                                                   @PathVariable String lectureCode, @PathVariable String sectionCode) throws SQLException {
-        isLogined(userId);
+        isLogin(userId);
         isTakingClass(userId, lectureCode, sectionCode);
         return classRepository.getStudents(lectureCode, sectionCode);
     }
@@ -66,7 +65,7 @@ public class ClassController {
     @GetMapping("/{lectureCode}/{sectionCode}/students/count")
     public int getTakingClassStudentCount(@SessionAttribute(name = "userId", required = false) String userId,
                                           @PathVariable String lectureCode, @PathVariable String sectionCode) throws SQLException {
-        isLogined(userId);
+        isLogin(userId);
         isTakingClass(userId, lectureCode, sectionCode);
         return classRepository.getStudentsCount(lectureCode, sectionCode);
     }
@@ -74,7 +73,7 @@ public class ClassController {
     // 7. 특정 요일에 진행되는 강의 목록 보기 (12번 쿼리)
     @GetMapping("/day")
     public List<ClassInfo> getClassListByDayOfWeek(@SessionAttribute(name = "userId", required = false) String userId, @RequestParam int dayOfWeek) throws SQLException {
-        isLogined(userId);
+        isLogin(userId);
         return classRepository.getClassByDayOfWeek(dayOfWeek);
     }
 
@@ -83,7 +82,7 @@ public class ClassController {
     public void writeComment(@SessionAttribute(name = "userId", required = false) String userId,
                              @PathVariable String lectureCode, @PathVariable String sectionCode,
                              @RequestBody CreateCommentRequestDto commentRequestDto) throws SQLException {
-        isLogined(userId);
+        isLogin(userId);
         isTakingClass(userId, lectureCode, sectionCode);
         classRepository.writeComment(commentRequestDto.getPostId(), commentRequestDto.getContent(), userId);
     }
@@ -95,7 +94,7 @@ public class ClassController {
         }
     }
 
-    private void isLogined(String studentId) {
+    private void isLogin(String studentId) {
         if (studentId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
         }
