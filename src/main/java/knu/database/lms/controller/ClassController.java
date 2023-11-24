@@ -86,4 +86,10 @@ public class ClassController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "수강하지 않는 과목입니다.");
         }
     }
+
+    private void isLogined(String studentId) {
+        if (studentId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
+    }
 }
