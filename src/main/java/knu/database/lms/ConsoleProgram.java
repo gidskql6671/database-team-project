@@ -302,7 +302,7 @@ public class ConsoleProgram {
 					System.out.println("해당 학과가 존재하지 않습니다.");
 					continue;
 				}
-				List<Lecture> lectures = departmentRepository.getClassLectures(departmentCode);
+				List<Lecture> lectures = departmentRepository.getLectures(departmentCode);
 
 				System.out.println(department.name + "의 강의 목록입니다.");
 				for(int i = 0; i < lectures.size(); i += 10) {

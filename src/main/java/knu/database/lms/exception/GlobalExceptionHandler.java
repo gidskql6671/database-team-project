@@ -10,7 +10,8 @@ import java.sql.SQLException;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(SQLException.class)
-	public ResponseEntity<String> handleFileException() {
+	public ResponseEntity<String> handleSqlException(SQLException e) {
+		System.out.println(e.getMessage());
 		return ResponseEntity
 				.internalServerError()
 				.body("SQL 예외가 발생했습니다.");
