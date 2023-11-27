@@ -101,9 +101,8 @@ public class TakeClassRepository {
 			return TakeClassResult.failResult("이미 수강한 과목입니다.");
 		}
 
-		String sql = "SELECT COUNT(*) " +
-				"FROM TAKE_CLASS " +
-				"WHERE LECTURE_CODE = ? AND SECTION_CODE = ?";
+		String sql = "SELECT CUR_STUDENT_NUMBER, MAX_STUDENT_NUMBER " +
+						"FROM CLASS WHERE LECTURE_CODE = ? AND SECTION_CODE = ?";
 		PreparedStatement ps = conn.prepareStatement(sql);
 
 		ps.setString(1, lectureCode);
@@ -114,22 +113,10 @@ public class TakeClassRepository {
 			return TakeClassResult.failResult("수업이 없습니다.");
 		}
 
-		int studentCount = rs.getInt(1);
+		int curStudentCount = rs.getInt(1);
+		int maxStudentCount = rs.getInt(2);
 
-		sql = "SELECT MAX_STUDENT_NUMBER FROM CLASS WHERE LECTURE_CODE = ? AND SECTION_CODE = ?";
-		ps = conn.prepareStatement(sql);
-
-		ps.setString(1, lectureCode);
-		ps.setString(2, sectionCode);
-
-		rs = ps.executeQuery();
-		if (!rs.next()) {
-			return TakeClassResult.failResult("수업이 없습니다.");
-		}
-
-		int maxStudentCount = rs.getInt(1);
-
-		if (studentCount == maxStudentCount) {
+		if (curStudentCount >= maxStudentCount) {
 			return TakeClassResult.failResult("수강 정원이 모두 찼습니다.");
 		}
 
