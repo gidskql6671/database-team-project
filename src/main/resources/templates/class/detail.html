@@ -10,14 +10,20 @@
   <header>
     <a href="/"> <img src="/image/lms.png" /> </a>
   </header>
-  <div class="container">
-    <nav>
-      <a th:href="@{/class}"> 수업 목록 페이지 돌아가기</a>
+  <div class="container_whole">
+    <nav class="nav_sidebar">
+      <a th:href="@{/class}">
+        <img class="nav_image" alt="과목" src="/image/book.svg">
+        <p class="nav_name">과목</p>
+      </a>
+      <a th:href="@{/sugang}">
+        <img class="nav_image" alt="수강신청" src="/image/sugang.svg">
+        <p>수강신청</p>
+      </a>
     
     </nav>
     
     <main>
-      
       <div class="container_notice">
         <h1> 공지 </h1>
         <ul th:each="post : ${posts}">
