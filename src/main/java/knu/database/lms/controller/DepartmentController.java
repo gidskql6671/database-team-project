@@ -25,6 +25,13 @@ public class DepartmentController {
         return departmentRepository.getStudents(departmentCode);
     }
 
+    // 2. 특정 과의 성적을 한번 이상 받은 학생 목록 조회 (9번 쿼리)
+    @GetMapping("/{departmentCode}/student/graded")
+    public List<Student> getStudentGradeList(@SessionAttribute(name = "userId", required = false) String userId,
+                                             @PathVariable String departmentCode) throws SQLException {
+        isLogin(userId);
+        return departmentRepository.getHavingGradeStudents(departmentCode);
+    }
 
     private void isLogin(String studentId) {
         if (studentId == null) {
