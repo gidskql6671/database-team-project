@@ -23,4 +23,9 @@ public class ClassroomController {
         return classRoomRepository.getBuildings();
     }
 
+    // 2. 특정 건물의 모든 강의실 목록 조회 (2번 쿼리)
+    @GetMapping("/{buildingNumber}")
+    public List<Classroom> getClassroomList(@PathVariable int buildingNumber) throws SQLException {
+        return classRoomRepository.getClassroomByBuilding(buildingNumber);
+    }
 }
