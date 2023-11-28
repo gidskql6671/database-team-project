@@ -17,5 +17,10 @@ import java.util.List;
 public class ClassroomController {
     private final ClassroomRepository classRoomRepository;
 
+    // 1. 건물 번호 목록 조회
+    @GetMapping("/building")
+    public List<Classroom> getBuildingList() throws SQLException {
+        return classRoomRepository.getBuildings();
+    }
 
 }
