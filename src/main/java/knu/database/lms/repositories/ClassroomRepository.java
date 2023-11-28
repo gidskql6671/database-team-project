@@ -52,7 +52,9 @@ public class ClassroomRepository {
         List<Classroom> classrooms = new ArrayList<>();
         while(rs.next()) {
             classrooms.add(new Classroom(
-                    rs.getString(1)
+                    buildingNumber,
+                    rs.getString(1),
+                    rs.getString(2)
             ));
         }
 
