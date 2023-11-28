@@ -1,63 +1,75 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>LMS</title>
-    <link rel="stylesheet" href="/css/base.css"/>
-    <link rel="stylesheet" href="/css/sugang.css"/>
+	<meta charset="UTF-8">
+	<title>LMS</title>
+	<link rel="stylesheet" href="/css/base.css"/>
+	<link rel="stylesheet" href="/css/sugang.css"/>
 </head>
 <body>
-<header>
-    <a href="/"> <img src="/image/lms.png" /> </a>
-    <h1> 수강신청 페이지 </h1>
-</header>
-<main>
-    <div class="sugang_container">
-        <h2> 수강신청 </h2>
-        <form>
-            <label>
-                과목 코드 :
-                <input type="text" name="fullCode">
-            </label>
-            <button> 신청 </button>
-        </form>
-    </div>
-    <div class="class_container">
-        <div class="class_search">
-            <h2> 검색 창 </h2>
-            <form action="/sugang" method="get">
-                <label>
-                    개설 학과 :
-                    <input type="text" name="departmentCode">
-                </label>
-                <button> 검색 </button>
-            </form>
-        </div>
-        <div class="class_list">
-            <h2> 개설된 수업 목록 </h2>
-            <table>
-                <th>lectureCode</th>
-                <th>sectionCode</th>
-                <th>강의명</th>
-                <th>professorName</th>
-                <th>건물 번호</th>
-                <th>강의실</th>
-                <th:block th:each="classInfo : ${classInfos}">
-                    <tr>
-                        <td th:text="${classInfo.lectureCode}"></td>
-                        <td th:text="${classInfo.sectionCode}"></td>
-                        <td th:text="${classInfo.lectureName}"></td>
-                        <td th:text="${classInfo.professorName}"></td>
-                        <td th:text="${classInfo.buildingNumber}"></td>
-                        <td th:text="${classInfo.roomCode}"></td>
-                    </tr>
-                </th:block>
-            </table>
-        </div>
-    </div>
-</main>
-<footer>
-
-</footer>
+	<header>
+		<a href="/"> <img src="/image/lms.png" /> </a>
+	</header>
+	
+	<div class="container_whole">
+		<nav class="nav_sidebar">
+			<a th:href="@{/class}">
+				<img class="nav_image" alt="과목" src="/image/book.svg">
+				<p class="nav_name">과목</p>
+			</a>
+			<a th:href="@{/sugang}">
+				<img class="nav_image" alt="수강신청" src="/image/sugang.svg">
+				<p>수강신청</p>
+			</a>
+		
+		</nav>
+		
+		<main>
+			<h1> 수강신청 페이지 </h1>
+			<div class="sugang_container">
+				<h2> 수강신청 </h2>
+				<form>
+					<label>
+						과목 코드 :
+						<input type="text" name="fullCode">
+					</label>
+					<button> 신청 </button>
+				</form>
+			</div>
+			<div class="class_container">
+				<div class="class_search">
+					<h2> 검색 창 </h2>
+					<form action="/sugang" method="get">
+						<label>
+							개설 학과 :
+							<input type="text" name="departmentCode">
+						</label>
+						<button> 검색 </button>
+					</form>
+				</div>
+				<div class="class_list">
+					<h2> 개설된 수업 목록 </h2>
+					<table>
+						<th>lectureCode</th>
+						<th>sectionCode</th>
+						<th>강의명</th>
+						<th>professorName</th>
+						<th>건물 번호</th>
+						<th>강의실</th>
+						<th:block th:each="classInfo : ${classInfos}">
+							<tr>
+								<td th:text="${classInfo.lectureCode}"></td>
+								<td th:text="${classInfo.sectionCode}"></td>
+								<td th:text="${classInfo.lectureName}"></td>
+								<td th:text="${classInfo.professorName}"></td>
+								<td th:text="${classInfo.buildingNumber}"></td>
+								<td th:text="${classInfo.roomCode}"></td>
+							</tr>
+						</th:block>
+					</table>
+				</div>
+			</div>
+		</main>
+	</div>
 </body>
 </html>
