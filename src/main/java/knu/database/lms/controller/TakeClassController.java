@@ -4,6 +4,7 @@ import knu.database.lms.dto.ClassInfo;
 import knu.database.lms.dto.Department;
 import knu.database.lms.dto.TakeClassResult;
 import knu.database.lms.dto.controller.TakeClassRequestDto;
+import knu.database.lms.repositories.ClassRepository;
 import knu.database.lms.repositories.DepartmentRepository;
 import knu.database.lms.repositories.TakeClassRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
 public class TakeClassController {
 	private final TakeClassRepository takeClassRepository;
 	private final DepartmentRepository departmentRepository;
+	private final ClassRepository classRepository;
 
 	@GetMapping("/sugang")
 	public ModelAndView sugangPage(
@@ -50,7 +52,10 @@ public class TakeClassController {
 			classInfos = takeClassRepository.getClassesOf(departmentCode, 2023, "2");
 		}
 
+		List<ClassInfo> takingClasses = classRepository.getTakingClass(userId);
+
 		mav.addObject("classInfos", classInfos);
+		mav.addObject("takingClasses", takingClasses);
 
 		return mav;
 	}
