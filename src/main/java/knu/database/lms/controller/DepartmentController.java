@@ -33,6 +33,14 @@ public class DepartmentController {
         return departmentRepository.getHavingGradeStudents(departmentCode);
     }
 
+    // 3. 특정 과의 교수의 수 조회(6번 쿼리)
+    @GetMapping("/{departmentCode}/professor/count")
+    public int getProfessorCount(@SessionAttribute(name = "userId", required = false) String userId,
+                                 @PathVariable String departmentCode) throws SQLException {
+        isLogin(userId);
+        return departmentRepository.countProfessors(departmentCode);
+    }
+
     private void isLogin(String studentId) {
         if (studentId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
