@@ -1,5 +1,6 @@
 package knu.database.lms.controller;
 
+import knu.database.lms.dto.Professor;
 import knu.database.lms.dto.Student;
 import knu.database.lms.repositories.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,14 @@ public class DepartmentController {
                                  @PathVariable String departmentCode) throws SQLException {
         isLogin(userId);
         return departmentRepository.countProfessors(departmentCode);
+    }
+
+    // 4. 특정 과의 교수 목록 조회
+    @GetMapping("/{departmentCode}/professor")
+    public List<Professor> getProfessorList(@SessionAttribute(name = "userId", required = false) String userId,
+                                            @PathVariable String departmentCode) throws SQLException {
+        isLogin(userId);
+        return departmentRepository.getProfessors(departmentCode);
     }
 
     private void isLogin(String studentId) {
