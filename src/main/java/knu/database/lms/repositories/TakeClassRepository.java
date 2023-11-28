@@ -94,6 +94,9 @@ public class TakeClassRepository {
 	public TakeClassResult takeClass(String studentId, String lectureCode, String sectionCode) throws SQLException {
 		Connection conn = dataSource.getConnection();
 
+		conn.setAutoCommit(false);
+		conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
 		if (takingClass(conn, studentId, lectureCode, sectionCode)) {
 			return TakeClassResult.failResult("이미 수강신청한 수업입니다.");
 		}
@@ -144,6 +147,9 @@ public class TakeClassRepository {
 
 	public boolean untakeClass(String studentId, String lectureCode, String sectionCode) throws SQLException {
 		Connection conn = dataSource.getConnection();
+
+		conn.setAutoCommit(false);
+		conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
 		String sql = "DELETE FROM TAKE_CLASS " +
 				"WHERE STUDENT_ID = ? AND LECTURE_CODE = ? AND SECTION_CODE = ?";
