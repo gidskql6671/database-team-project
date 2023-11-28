@@ -1,6 +1,9 @@
 package knu.database.lms.controller;
 
-import knu.database.lms.dto.*;
+import knu.database.lms.dto.ClassInfo;
+import knu.database.lms.dto.Comment;
+import knu.database.lms.dto.CreateCommentRequestDto;
+import knu.database.lms.dto.Post;
 import knu.database.lms.repositories.ClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +23,7 @@ public class ClassController {
     @GetMapping
     public List<ClassInfo> getClassList(@SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
         isLogin(userId);
-       return classRepository.getTakingClass(userId);
+        return classRepository.getTakingClass(userId);
     }
 
     // 2. 수강 중인 수업의 게시글 목록 보기

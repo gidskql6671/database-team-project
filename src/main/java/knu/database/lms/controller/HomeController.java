@@ -3,6 +3,7 @@ package knu.database.lms.controller;
 
 import knu.database.lms.dto.ClassInfo;
 import knu.database.lms.dto.Department;
+import knu.database.lms.repositories.ClassRepository;
 import knu.database.lms.repositories.DepartmentRepository;
 import knu.database.lms.repositories.TakeClassRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ import java.util.List;
 public class HomeController {
 	private final TakeClassRepository takeClassRepository;
 	private final DepartmentRepository departmentRepository;
-
+	private final ClassRepository classRepository;
 
 	@GetMapping
 	public ModelAndView mainPage(@SessionAttribute(name = "userId", required = false) String userId) {
@@ -38,6 +39,27 @@ public class HomeController {
 			mav.addObject("isLogin", true);
 		}
 		mav.setViewName("index");
+
+		return mav;
+	}
+
+	@GetMapping("/class")
+	public ModelAndView classPage(@SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
+		ModelAndView mav = new ModelAndView();
+
+		if (userId == null) {
+			mav.setViewName("redirect:/");
+
+			return mav;
+		}
+
+		mav.setViewName("class");
+
+		List<ClassInfo> classInfos = classRepository.getTakingClass(userId);
+
+		mav.addObject("classInfos", classInfos);
+		mav.addObject("year", 2023);
+		mav.addObject("semester", "2");
 
 		return mav;
 	}

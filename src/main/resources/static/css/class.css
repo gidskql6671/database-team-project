@@ -1,0 +1,15 @@
+li {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.lecture_name {
+    text-decoration-line: none;
+    display: block;
+    color: black;
+    font-size: x-large;
+}
+
+.year_semester {
+    color: gray;
+}
