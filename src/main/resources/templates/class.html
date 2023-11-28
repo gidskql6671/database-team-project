@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>LMS</title>
-    <link rel="stylesheet" href="/css/base.css"/>
-    <link rel="stylesheet" href="/css/class.css"/>
+	<meta charset="UTF-8">
+	<title>LMS</title>
+	<link rel="stylesheet" href="/css/base.css"/>
+	<link rel="stylesheet" href="/css/class.css"/>
 </head>
 <body>
-<header>
-    <a href="/"> <img src="/image/lms.png" /> </a>
-</header>
-<main>
-    <div class="container_class">
-        <h1> 과목 </h1>
-        <ul th:each="ci : ${classInfos}">
-            <li th:object="${ci}">
-                <a class="lecture_name" th:href="@{/class/{lectureCode}/{sectionCode}(lectureCode=*{lectureCode}, sectionCode=*{sectionCode})}">
-                    <span th:text="*{lectureName}" /> <span th:text="*{sectionCode}" />분반 (<span th:text="*{lectureCode + sectionCode}" />)
-                </a>
-                
-                <p class="year_semester">
-                    <span th:text="${year}" />년도 <span th:text="${semester}" />학기
-                </p>
-            </li>
-        </ul>
-    </div>
-
-</main>
-<footer>
-
-</footer>
-<script src="/js/class.js"></script>
+	<header>
+		<a href="/"> <img src="/image/lms.png" /> </a>
+	</header>
+	
+	<div class="container_whole">
+		<nav class="nav_sidebar">
+			<a th:href="@{/class}">
+				<img class="nav_image" alt="과목" src="/image/book.svg">
+				<p class="nav_name">과목</p>
+			</a>
+			<a th:href="@{/sugang}">
+				<img class="nav_image" alt="수강신청" src="/image/sugang.svg">
+				<p>수강신청</p>
+			</a>
+		</nav>
+		
+		<main>
+			<div class="container_class">
+				<h1> 과목 </h1>
+				<ul th:each="ci : ${classInfos}">
+					<li th:object="${ci}">
+						<a class="lecture_name" th:href="@{/class/{lectureCode}/{sectionCode}(lectureCode=*{lectureCode}, sectionCode=*{sectionCode})}">
+							<span th:text="*{lectureName}" /> <span th:text="*{sectionCode}" />분반 (<span th:text="*{lectureCode + sectionCode}" />)
+						</a>
+						
+						<p class="year_semester">
+							<span th:text="${year}" />년도 <span th:text="${semester}" />학기
+						</p>
+					</li>
+				</ul>
+			</div>
+		</main>
+	</div>
+	<script src="/js/class.js"></script>
 </body>
 </html>

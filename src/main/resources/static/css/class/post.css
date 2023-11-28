@@ -1,11 +1,8 @@
-main {
-    padding: 30px;
-}
-
 .container_post {
     border: 1px solid black;
     border-radius: 5px;
     padding: 30px;
+    width: 970px;
 
     font-size: larger;
 }
