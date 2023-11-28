@@ -50,6 +50,16 @@ public class DepartmentController {
         return departmentRepository.getProfessors(departmentCode);
     }
 
+    // 5. 특정 학기에 수업을 진행하지 않는 특정 과의 교수 목록 조회 (10번 쿼리)
+    @GetMapping("/{departmentCode}/professor/notTeach")
+    public List<Professor> getProfessorNotTeachingList(@SessionAttribute(name = "userId", required = false) String userId,
+                                                       @PathVariable String departmentCode,
+                                                       @RequestParam int year,
+                                                       @RequestParam String semester) throws SQLException {
+        isLogin(userId);
+        return departmentRepository.getNotTeachProfessors(departmentCode, year, semester);
+    }
+
     private void isLogin(String studentId) {
         if (studentId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
