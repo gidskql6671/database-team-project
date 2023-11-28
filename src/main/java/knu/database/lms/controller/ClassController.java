@@ -41,14 +41,26 @@ public class ClassController {
         return mav;
     }
 
-    // 2. 수강 중인 수업의 게시글 목록 보기
-    @ResponseBody
-    @GetMapping("/api/class/{lectureCode}/{sectionCode}/post")
-    public List<Post> getClassPostList(@SessionAttribute(name = "userId", required = false) String userId,
-                                       @PathVariable String lectureCode, @PathVariable String sectionCode) throws SQLException {
-        isLogin(userId);
+    @GetMapping("/class/{lectureCode}/{sectionCode}")
+    public ModelAndView classDetailPage(
+            @PathVariable String lectureCode, @PathVariable String sectionCode,
+            @SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
+        ModelAndView mav = new ModelAndView();
+
+        if (userId == null) {
+            mav.setViewName("redirect:/");
+
+            return mav;
+        }
+
+        mav.setViewName("class/detail");
+
         isTakingClass(userId, lectureCode, sectionCode);
-        return classRepository.getPosts(lectureCode, sectionCode);
+        List<Post> posts = classRepository.getPosts(lectureCode, sectionCode);
+
+        mav.addObject("posts", posts);
+
+        return mav;
     }
 
     // 3. 수강 중인 수업의 게시글 보기
@@ -106,6 +118,7 @@ public class ClassController {
     @PostMapping("/api/class/{lectureCode}/{sectionCode}/post/{postId}/comment")
     public void writeComment(@SessionAttribute(name = "userId", required = false) String userId,
                              @PathVariable String lectureCode, @PathVariable String sectionCode,
+                             @PathVariable int postId,
                              @RequestBody CreateCommentRequestDto commentRequestDto) throws SQLException {
         isLogin(userId);
         isTakingClass(userId, lectureCode, sectionCode);

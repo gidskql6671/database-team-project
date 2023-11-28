@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>LMS</title>
+  <link rel="stylesheet" href="/css/class/detail.css"/>
+</head>
+<body>
+  <header>
+    <a href="/"> <img src="/image/lms.png" /> </a>
+  </header>
+  <main>
+    <div class="container_notice">
+      <h1> 공지 </h1>
+      <ul th:each="post : ${posts}">
+        <li class="box_post" th:object="${post}" th:if="${post.type == 'notice'}">
+          <a class="post_title"
+             th:href="@{/class/{lectureCode}/{sectionCode}/post/{id}
+             (lectureCode=${lectureCode}, sectionCode=${sectionCode}, id=*{id})}"
+             th:text="*{title}" />
+          <div class="post_meta">
+            <p class="publisher">
+              게시자 : <span th:text="*{publisherName}" />
+            </p>
+            <p class="publisher">
+              작성 일자 : <span th:text="*{createdAt}" />
+            </p>
+          </div>
+        </li>
+      </ul>
+    
+    </div>
+    <div class="container_lecture">
+      <h1> 강의자료 </h1>
+      <ul th:each="post : ${posts}">
+        <li class="box_post" th:object="${post}" th:if="${post.type == 'lecture'}">
+          <a class="post_title"
+             th:href="@{/class/{lectureCode}/{sectionCode}/post/{id}
+             (lectureCode=${lectureCode}, sectionCode=${sectionCode}, id=*{id})}"
+             th:text="*{title}" />
+          <div class="post_meta">
+            <p class="publisher">
+              게시자 : <span th:text="*{publisherName}" />
+            </p>
+            <p class="publisher">
+              작성 일자 : <span th:text="*{createdAt}" />
+            </p>
+          </div>
+        </li>
+      </ul>
+    
+    </div>
+  
+  </main>
+  <footer>
+  
+  </footer>
+  <script src="/js/class/detail.js"></script>
+</body>
+</html>
