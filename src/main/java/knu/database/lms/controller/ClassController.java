@@ -63,6 +63,31 @@ public class ClassController {
         return mav;
     }
 
+    @GetMapping("/class/{lectureCode}/{sectionCode}/post/{postId}")
+    public ModelAndView postPage(
+            @PathVariable String lectureCode, @PathVariable String sectionCode, @PathVariable int postId,
+            @SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
+        ModelAndView mav = new ModelAndView();
+
+        if (userId == null) {
+            mav.setViewName("redirect:/");
+
+            return mav;
+        }
+
+        mav.setViewName("class/post");
+
+        isTakingClass(userId, lectureCode, sectionCode);
+        Post post = classRepository.getPost(lectureCode, sectionCode, postId);
+
+        mav.addObject("post", post);
+
+        String br = System.getProperty("line.separator");
+        mav.addObject( "nlString", br);
+
+        return mav;
+    }
+
     // 3. 수강 중인 수업의 게시글 보기
     @ResponseBody
     @GetMapping("/api/class/{lectureCode}/{sectionCode}/post/{postId}")
