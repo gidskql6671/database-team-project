@@ -9,8 +9,11 @@ public class ClassInfo {
 	public int buildingNumber;
 	public String roomCode;
 	public String lectureName;
+	public int curStudentNum;
+	public int maxStudentNum;
 
-	public ClassInfo(String lectureCode, String sectionCode, String professorId, String professorName, String departmentCode, int buildingNumber, String roomCode, String lectureName) {
+
+	public ClassInfo(String lectureCode, String sectionCode, String professorId, String professorName, String departmentCode, int buildingNumber, String roomCode, String lectureName, int curStudentNum, int maxStudentNum) {
 		this.lectureCode = lectureCode;
 		this.sectionCode = sectionCode;
 		this.professorId = professorId;
@@ -19,6 +22,8 @@ public class ClassInfo {
 		this.buildingNumber = buildingNumber;
 		this.roomCode = roomCode;
 		this.lectureName = lectureName;
+		this.curStudentNum = curStudentNum;
+		this.maxStudentNum = maxStudentNum;
 	}
 
 	public ClassInfo(String lectureCode, String sectionCode, String professorId, String professorName, String departmentCode, int buildingNumber, String roomCode) {
@@ -30,9 +35,12 @@ public class ClassInfo {
 				departmentCode,
 				buildingNumber,
 				roomCode,
-				""
+				"",
+				0,
+				0
 		);
 	}
+
 	public ClassInfo(String lectureCode, String sectionCode, String lectureName) {
 		this(
 				lectureCode,
@@ -42,7 +50,9 @@ public class ClassInfo {
 				"",
 				0,
 				"",
-				lectureName
+				lectureName,
+				0,
+				0
 		);
 	}
 }
