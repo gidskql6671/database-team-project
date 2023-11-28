@@ -17,7 +17,12 @@ header {
 }
 
 main {
+    width: 100%;
     padding: 30px;
+}
+
+ul {
+    padding-left: 0;
 }
 
 li {
@@ -37,9 +42,10 @@ a {
 }
 
 .nav_sidebar {
-    width: 100px;
+    min-width: 90px;
+    width: 90px;
     background-color: #d20f17;
-    padding: 40px 20px 20px;
+    padding: 40px 10px 20px;
 
     display: flex;
     flex-direction: column;
