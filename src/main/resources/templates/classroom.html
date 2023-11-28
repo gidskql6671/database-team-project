@@ -19,8 +19,31 @@
           건물 번호  :
           <input type="text" name="buildingNumber"> </br>
           강의실 번호 :
-          <input type="text" name="classroomNumber">
+          <input type="text" name="classroomNumber"> </br>
         </label>
+        <label for="startDateTime"> 시작 시간 :
+          <input type="datetime-local" id='startDateTime'/>
+          <script>
+            document.getElementById('startDateTime').value= new Date().toISOString().slice(11, 16);
+          </script>
+<!--          <input type="datetime-local"-->
+<!--                 id="startDateTime"-->
+<!--                 max="2077-06-20T21:00"-->
+<!--                 min="2023-11-30T12:30"-->
+<!--                 value="2077-06-15T13:27"> </br>-->
+        </label> </br>
+        <label for="endDateTime"> 종료 시간 :
+          <input type="datetime-local" id='endDateTime'/>
+          <script>
+            document.getElementById('endDateTime').value= new Date().toISOString().slice(11, 16);
+          </script>
+<!--          <input type="datetime-local"-->
+<!--                 id="endDateTime"-->
+<!--                 max="2077-06-20T21:00"-->
+<!--                 min="2023-11-30T12:30"-->
+<!--                 value="2077-06-15T13:27">-->
+<!--        </label> </br>-->
+        </label> </br>
         <button> 예약 </button>
       </form>
     </div>
