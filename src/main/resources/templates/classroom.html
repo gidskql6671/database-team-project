@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>LMS</title>
+	<link rel="stylesheet" href="/css/base.css"/>
+	<link rel="stylesheet" href="/css/classroom.css"/>
+</head>
+<body>
+	<header>
+		<a href="/"> <img src="/image/lms.png" /> </a>
+	</header>
+	
+	<div class="container_whole">
+		<nav class="nav_sidebar">
+			<a th:href="@{/class}">
+				<img class="nav_image" alt="과목" src="/image/book.svg">
+				<p class="nav_name">과목</p>
+			</a>
+			<a th:href="@{/sugang}">
+				<img class="nav_image" alt="수강신청" src="/image/sugang.svg">
+				<p>수강신청</p>
+			</a>
+			<a th:href="@{/classroom}">
+				<img class="nav_image" alt="수강신청" src="/image/classroom.svg">
+				<p>강의실</p>
+			</a>
+		</nav>
+		
+		<main>
+			<h1> 강의실 예약 페이지 </h1>
+			<div class="classroom_container">
+				<div class="reservation">
+					<h2> 강의실 예약 </h2>
+					<form id="form_reservation">
+						<label> 건물 번호  :
+							<input type="text" name="buildingNumber">
+						</label>
+						<label> 강의실 코드 :
+							<input type="text" name="roomCode">
+						</label>
+						<label> 시작 시간 :
+							<input type="datetime-local" name='startDateTime'/>
+						</label>
+						<label> 종료 시간 :
+							<input type="datetime-local" name='endDateTime'/>
+						</label>
+						<button type="button" onclick="reserve()" class="btn btn_sugang"> 예약 </button>
+					</form>
+				</div>
+				
+				<div class="search">
+					<h2> 검색 창 </h2>
+					<form class="form_search" action="/classroom">
+						<label>
+							건물 번호 :
+							<input type="text" name="buildingNumber">
+						</label>
+						<button> 검색 </button>
+					</form>
+				</div>
+				
+				<div class="list">
+					<th:block th:if="${buildingNumbers != null}">
+						<h2> 건물 목록 </h2>
+						<table>
+							<th>건물 번호</th>
+							<th:block th:each="buildingNumber : ${buildingNumbers}">
+								<tr>
+									<td th:text="${buildingNumber}"></td>
+								</tr>
+							</th:block>
+						</table>
+					</th:block>
+					<th:block th:if="${classrooms != null}">
+						<h2> 강의실 목록 </h2>
+						<table>
+							<th>건물 번호</th>
+							<th>강의실 코드</th>
+							<th>강의실 이름</th>
+							<th:block th:each="classroom : ${classrooms}">
+								<tr th:object="${classroom}">
+									<td th:text="*{buildingNumber}"></td>
+									<td th:text="*{roomCode}"></td>
+									<td th:text="*{name}"></td>
+								</tr>
+							</th:block>
+						</table>
+					</th:block>
+				</div>
+			</div>
+		</main>
+	</div>
+	
+	<script src="/js/classroom.js"></script>
+</body>
+</html>

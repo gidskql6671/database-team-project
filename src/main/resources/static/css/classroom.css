@@ -1,0 +1,20 @@
+table, td, th {
+    border: 1px solid black;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form_search label {
+    display: inline;
+    margin-right: 15px;
+}
+
+.reservation {
+    border-bottom: 1px solid gray;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
