@@ -56,14 +56,18 @@
 						<th>professorName</th>
 						<th>건물 번호</th>
 						<th>강의실</th>
+						<th>현재 수강 인원</th>
+						<th>최대 수강 인원</th>
 						<th:block th:each="classInfo : ${classInfos}">
-							<tr>
-								<td th:text="${classInfo.lectureCode}"></td>
-								<td th:text="${classInfo.sectionCode}"></td>
-								<td th:text="${classInfo.lectureName}"></td>
-								<td th:text="${classInfo.professorName}"></td>
-								<td th:text="${classInfo.buildingNumber}"></td>
-								<td th:text="${classInfo.roomCode}"></td>
+							<tr th:object="${classInfo}">
+								<td th:text="*{lectureCode}"></td>
+								<td th:text="*{sectionCode}"></td>
+								<td th:text="*{lectureName}"></td>
+								<td th:text="*{professorName}"></td>
+								<td th:text="*{buildingNumber}"></td>
+								<td th:text="*{roomCode}"></td>
+								<td th:text="*{curStudentNum}"></td>
+								<td th:text="*{maxStudentNum}"></td>
 							</tr>
 						</th:block>
 					</table>
