@@ -26,4 +26,18 @@ public class HomeController {
 
 		return mav;
 	}
+
+	@GetMapping("/classroom")
+	public ModelAndView classroomPage(@SessionAttribute(name = "userId", required = false) String userId) {
+		ModelAndView mav = new ModelAndView();
+
+		if (userId == null) {
+			mav.setViewName("redirect:/");
+		}
+		else {
+			mav.setViewName("classroom");
+		}
+
+		return mav;
+	}
 }
