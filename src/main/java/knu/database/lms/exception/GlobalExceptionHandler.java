@@ -1,11 +1,13 @@
 package knu.database.lms.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
 
@@ -22,11 +24,24 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(ResponseStatusException.class)
-//	@GetMapping("/error")
-	public String handleError(ResponseStatusException e, Model model) {
-		model.addAttribute("code", e.getStatusCode());
-		model.addAttribute("msg", e.getMessage());
+	public ModelAndView handleError(HttpServletRequest req, ResponseStatusException e) {
 
-		return "error";
+		ModelAndView mav = new ModelAndView();
+		String contentType = req.getContentType();
+		if (MediaType.APPLICATION_JSON_VALUE.equals(contentType)){
+			mav.setStatus(e.getStatusCode());
+			mav.setViewName("jsonView");
+
+			System.out.println(e.getMessage());
+			mav.addObject("msg", e.getReason());
+		} else {
+			//json 이 아닐경우 error page 로 이동
+			mav.addObject("code", e.getStatusCode());
+			mav.addObject("msg", e.getReason());
+
+			mav.setViewName("error");
+		}
+
+		return mav;
 	}
 }

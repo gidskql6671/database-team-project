@@ -24,7 +24,7 @@ public class TakeClassRepository {
 		Connection conn = dataSource.getConnection();
 
 		String sql =
-			"SELECT C.LECTURE_CODE, SECTION_CODE, C.PROFESSOR_ID, P.NAME, C.DEPARTMENT_CODE, BUILDING_NUMBER, ROOM_CODE, L.NAME " +
+			"SELECT C.LECTURE_CODE, SECTION_CODE, C.PROFESSOR_ID, P.NAME, C.DEPARTMENT_CODE, BUILDING_NUMBER, ROOM_CODE, L.NAME, CUR_STUDENT_NUMBER, MAX_STUDENT_NUMBER " +
 				"FROM (CLASS C JOIN PROFESSOR P ON C.PROFESSOR_ID = P.PROFESSOR_ID) JOIN LECTURE L ON C.LECTURE_CODE = L.LECTURE_CODE " +
 				"WHERE YEAR = ? AND SEMESTER = ?";
 		PreparedStatement ps = conn.prepareStatement(sql);
@@ -44,7 +44,9 @@ public class TakeClassRepository {
 					rs.getString(5),
 					rs.getInt(6),
 					rs.getString(7),
-					rs.getString(8)
+					rs.getString(8),
+					rs.getInt(9),
+					rs.getInt(10)
 			));
 		}
 
@@ -80,7 +82,9 @@ public class TakeClassRepository {
 					rs.getString(5),
 					rs.getInt(6),
 					rs.getString(7),
-					rs.getString(8)
+					rs.getString(8),
+					rs.getInt(9),
+					rs.getInt(10)
 			));
 		}
 

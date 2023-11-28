@@ -28,14 +28,38 @@
 			<h1> 수강신청 페이지 </h1>
 			<div class="sugang_container">
 				<h2> 수강신청 </h2>
-				<form>
+				<form id="sugang_form" action="/api/sugang" method="post">
+					<input hidden="hidden" />
 					<label>
-						과목 코드 :
-						<input type="text" name="fullCode">
+						과목 전체 코드 :
+						<input type="text" name="full_code">
 					</label>
-					<button> 신청 </button>
+					<button type="button" onclick="takeClass()" class="btn btn_sugang"> 신청 </button>
 				</form>
+				
+				<h2> 수강 과목 목록 </h2>
+				<div class="taking_class_list">
+					<table>
+						<th>lectureCode</th>
+						<th>sectionCode</th>
+						<th>강의명</th>
+						<th></th>
+						<th:block th:each="takingClass : ${takingClasses}">
+							<tr th:object="${takingClass}">
+								<td th:text="*{lectureCode}"></td>
+								<td th:text="*{sectionCode}"></td>
+								<td th:text="*{lectureName}"></td>
+								<td>
+									<button
+													th:param1="*{lectureCode}" th:param2="*{sectionCode}"
+													th:onclick="untakeClass(this.getAttribute('param1'), this.getAttribute('param2'))"> 수강 취소</button>
+								</td>
+							</tr>
+						</th:block>
+					</table>
+				</div>
 			</div>
+			
 			<div class="class_container">
 				<div class="class_search">
 					<h2> 검색 창 </h2>
@@ -56,14 +80,18 @@
 						<th>professorName</th>
 						<th>건물 번호</th>
 						<th>강의실</th>
+						<th>현재 수강 인원</th>
+						<th>최대 수강 인원</th>
 						<th:block th:each="classInfo : ${classInfos}">
-							<tr>
-								<td th:text="${classInfo.lectureCode}"></td>
-								<td th:text="${classInfo.sectionCode}"></td>
-								<td th:text="${classInfo.lectureName}"></td>
-								<td th:text="${classInfo.professorName}"></td>
-								<td th:text="${classInfo.buildingNumber}"></td>
-								<td th:text="${classInfo.roomCode}"></td>
+							<tr th:object="${classInfo}">
+								<td th:text="*{lectureCode}"></td>
+								<td th:text="*{sectionCode}"></td>
+								<td th:text="*{lectureName}"></td>
+								<td th:text="*{professorName}"></td>
+								<td th:text="*{buildingNumber}"></td>
+								<td th:text="*{roomCode}"></td>
+								<td th:text="*{curStudentNum}"></td>
+								<td th:text="*{maxStudentNum}"></td>
 							</tr>
 						</th:block>
 					</table>
@@ -71,5 +99,6 @@
 			</div>
 		</main>
 	</div>
+	<script src="/js/sugang.js"></script>
 </body>
 </html>
