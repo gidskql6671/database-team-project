@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>LMS</title>
@@ -49,7 +49,7 @@
     </div>
     <div class="classroom_search">
       <h2> 검색 창 </h2>
-      <form>
+      <form action="/classroom">
         <label>
           건물 번호 :
           <input type="text" name="buildingNumber">
@@ -58,17 +58,32 @@
       </form>
     </div>
     <div class="classroom_list">
-      <h2> 강의실 목록 </h2>
-      <table>
-        <th>건물 번호</th>
-        <th>강의실</th>
-<!--        <th:block th:each="Classroom : ${classrooms}">-->
-<!--          <tr>-->
-<!--            <td th:text="${Classroom.buildingNumber}"></td>-->
-<!--            <td th:text="${Classroom.roomCode}"></td>-->
-<!--          </tr>-->
-<!--        </th:block>-->
-      </table>
+      <th:block th:if="${buildingNumbers != null}">
+        <h2> 건물 목록 </h2>
+        <table>
+          <th>건물 번호</th>
+          <th:block th:each="buildingNumber : ${buildingNumbers}">
+            <tr>
+              <td th:text="${buildingNumber}"></td>
+            </tr>
+          </th:block>
+        </table>
+      </th:block>
+      <th:block th:if="${classrooms != null}">
+        <h2> 강의실 목록 </h2>
+        <table>
+          <th>건물 번호</th>
+          <th>강의실 코드</th>
+          <th>강의실 이름</th>
+          <th:block th:each="classroom : ${classrooms}">
+            <tr th:object="${classroom}">
+              <td th:text="*{buildingNumber}"></td>
+              <td th:text="*{roomCode}"></td>
+              <td th:text="*{name}"></td>
+            </tr>
+          </th:block>
+        </table>
+      </th:block>
     </div>
   </div>
 </main>

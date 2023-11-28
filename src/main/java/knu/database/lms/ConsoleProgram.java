@@ -622,11 +622,11 @@ public class ConsoleProgram {
 				break;
 			}
 			else if (menu == 1) {
-				List<Classroom> buildings = classroomRepository.getBuildings();
+				List<Integer> buildings = classroomRepository.getBuildingNumbers();
 
 				System.out.printf("건물 번호 목록을 조회합니다.\n|");
-				for (Classroom building : buildings) {
-					System.out.printf(" %d |", building.buildingNumber);
+				for (Integer building : buildings) {
+					System.out.printf(" %d |", building);
 				}
 				System.out.println();
 			}
