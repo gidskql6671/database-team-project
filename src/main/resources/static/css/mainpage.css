@@ -5,6 +5,7 @@ main {
     height: 500px;
     display: flex;
     justify-content: right;
+    padding: 0;
 }
 
 .main_sidebar {
@@ -50,7 +51,6 @@ main {
 }
 
 .btn.btn_my_lecture {
-    text-decoration-line: none;
     display: block;
     color: white;
     background-color: #00b1a0;

@@ -12,10 +12,7 @@ main {
 
 .post_title {
     font-size: xx-large;
-
-    text-decoration-line: none;
     display: block;
-    color: black;
 }
 
 .post_meta {

@@ -1,10 +1,11 @@
-main {
-    padding: 30px;
+.container {
+    display: flex;
 }
 
-li {
-    list-style-type: none;
-    padding-left: 0;
+.container > nav {
+    width: 100px;
+    background-color: #d20f17;
+    color: white;
 }
 
 .container_notice {
@@ -22,10 +23,7 @@ li {
 
 .post_title {
     font-size: xx-large;
-
-    text-decoration-line: none;
     display: block;
-    color: black;
 }
 
 .post_meta {
