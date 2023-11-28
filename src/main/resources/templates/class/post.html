@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>LMS</title>
+  <link rel="stylesheet" href="/css/base.css"/>
+  <link rel="stylesheet" href="/css/class/post.css"/>
+</head>
+<body>
+  <header>
+    <a href="/"> <img src="/image/lms.png" /> </a>
+  </header>
+  <div class="container_whole">
+    <nav class="nav_sidebar">
+      <a th:href="@{/class}">
+        <img class="nav_image" alt="과목" src="/image/book.svg">
+        <p class="nav_name">과목</p>
+      </a>
+      <a th:href="@{/sugang}">
+        <img class="nav_image" alt="수강신청" src="/image/sugang.svg">
+        <p>수강신청</p>
+      </a>
+    </nav>
+      
+    <main>
+      <div class="container_post" th:object="${post}">
+        <h1 class="post_title" th:text="*{title}" />
+        <div class="post_meta">
+          <p class="publisher">
+            게시자 : <span th:text="*{publisherName}" />
+          </p>
+          <p class="publisher">
+            작성 일자 : <span th:text="*{createdAt}" />
+          </p>
+        </div>
+        <p class="post_content"
+           th:utext="${#strings.replace(post.content, nlString, '&lt;br /&gt;')}"></p>
+      </div>
+    </main>
+  </div>
+  <script src="/js/class/post.js"></script>
+</body>
+</html>

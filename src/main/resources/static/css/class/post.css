@@ -1,0 +1,18 @@
+.container_post {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 30px;
+
+    font-size: larger;
+}
+
+.post_title {
+    font-size: xx-large;
+    display: block;
+}
+
+.post_meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}

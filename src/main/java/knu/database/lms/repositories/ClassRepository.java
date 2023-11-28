@@ -80,7 +80,7 @@ public class ClassRepository {
 		Connection conn = dataSource.getConnection();
 
 		List<Post> result = new ArrayList<>();
-		String sql = "SELECT POST_ID, TYPE, TITLE, NAME " +
+		String sql = "SELECT POST_ID, TYPE, TITLE, NAME, CREATED_AT " +
 				"FROM POST JOIN PROFESSOR ON PROFESSOR_ID = PUBLISHER_ID " +
 				"WHERE LECTURE_CODE = ? AND SECTION_CODE = ?";
 
@@ -96,7 +96,8 @@ public class ClassRepository {
 					rs.getString(2),
 					rs.getString(3),
 					"",
-					rs.getString(4)
+					rs.getString(4),
+					rs.getTimestamp(5)
 			);
 
 			result.add(post);
@@ -113,7 +114,7 @@ public class ClassRepository {
 		Connection conn = dataSource.getConnection();
 
 		Post result = null;
-		String sql = "SELECT POST_ID, TYPE, TITLE, CONTENT, NAME " +
+		String sql = "SELECT POST_ID, TYPE, TITLE, CONTENT, NAME, CREATED_AT " +
 				"FROM POST JOIN PROFESSOR ON PROFESSOR_ID = PUBLISHER_ID " +
 				"WHERE LECTURE_CODE = ? AND SECTION_CODE = ? AND POST_ID = ?";
 
@@ -130,7 +131,8 @@ public class ClassRepository {
 					rs.getString(2),
 					rs.getString(3),
 					rs.getString(4),
-					rs.getString(5)
+					rs.getString(5),
+					rs.getTimestamp(6)
 			);
 		}
 

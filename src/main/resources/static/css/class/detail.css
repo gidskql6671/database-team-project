@@ -1,0 +1,23 @@
+.container_notice {
+    margin-bottom: 60px;
+}
+
+.box_post {
+    margin-bottom: 30px;
+    min-width: 500px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 30px 30px 0 30px;
+
+    font-size: larger;
+}
+
+.post_title {
+    font-size: xx-large;
+    display: block;
+}
+
+.post_meta {
+    display: flex;
+    justify-content: space-between;
+}

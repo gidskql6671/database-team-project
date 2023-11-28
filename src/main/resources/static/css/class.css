@@ -1,0 +1,22 @@
+.lecture_name {
+    display: block;
+    font-size: x-large;
+}
+
+.year_semester {
+    color: gray;
+}
+
+.box_class {
+    margin-bottom: 30px;
+    border-bottom: 1px solid gray;
+    width: 100%;
+
+    padding-left: 15px;
+}
+
+.title {
+    border-bottom: 2px solid gray;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
