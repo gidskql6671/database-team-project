@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LMS</title>
+  <link rel="stylesheet" href="/css/classroom.css"/>
+</head>
+<body>
+<header>
+  <a href="/"> <img src="/image/lms.png" /> </a>
+  <h1> 강의실 예약 페이지 </h1>
+</header>
+<main>
+  <div class="classroom_container">
+    <div class="classroom_search">
+      <h2> 검색 창 </h2>
+      <form>
+        <label>
+          건물 번호 :
+          <input type="text" name="buildingNumber">
+        </label>
+        <button> 검색 </button>
+      </form>
+    </div>
+    <div class="classroom_list">
+      <h2> 강의실 목록 </h2>
+      <table>
+        <th>건물 번호</th>
+        <th>강의실</th>
+<!--        <th:block th:each="Classroom : ${classrooms}">-->
+<!--          <tr>-->
+<!--            <td th:text="${Classroom.buildingNumber}"></td>-->
+<!--            <td th:text="${Classroom.roomCode}"></td>-->
+<!--          </tr>-->
+<!--        </th:block>-->
+      </table>
+    </div>
+  </div>
+</main>
+</body>
+</html>
