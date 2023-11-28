@@ -24,20 +24,18 @@
 		</nav>
 		
 		<main>
-			<div class="container_class">
-				<h1> 과목 </h1>
-				<ul th:each="ci : ${classInfos}">
-					<li th:object="${ci}">
-						<a class="lecture_name" th:href="@{/class/{lectureCode}/{sectionCode}(lectureCode=*{lectureCode}, sectionCode=*{sectionCode})}">
-							<span th:text="*{lectureName}" /> <span th:text="*{sectionCode}" />분반 (<span th:text="*{lectureCode + sectionCode}" />)
-						</a>
-						
-						<p class="year_semester">
-							<span th:text="${year}" />년도 <span th:text="${semester}" />학기
-						</p>
-					</li>
-				</ul>
-			</div>
+			<h1 class="title"> 과목 </h1>
+			<ul th:each="ci : ${classInfos}">
+				<li class="box_class" th:object="${ci}">
+					<a class="lecture_name" th:href="@{/class/{lectureCode}/{sectionCode}(lectureCode=*{lectureCode}, sectionCode=*{sectionCode})}">
+						<span th:text="*{lectureName}" /> <span th:text="*{sectionCode}" />분반 (<span th:text="*{lectureCode + sectionCode}" />)
+					</a>
+					
+					<p class="year_semester">
+						<span th:text="${year}" />년도 <span th:text="${semester}" />학기
+					</p>
+				</li>
+			</ul>
 		</main>
 	</div>
 	<script src="/js/class.js"></script>
