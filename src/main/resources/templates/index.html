@@ -11,8 +11,8 @@
 </header>
 <main>
     <div class="main_sidebar">
-        <div th:if="${isLogin}">
-            <button class="btn btn_my_lecture"> 나의 과목 바로가기 </button>
+        <div th:if="${isLogin}" class="content">
+            <a href="/class" class="btn btn_my_lecture"> 나의 과목 바로가기 </a>
             <button onclick="logout()" class="btn btn_logout"> 로그아웃 </button>
         </div>
         <form id="login_form" th:if="${!isLogin}" action="/api/users/login" method="post">
