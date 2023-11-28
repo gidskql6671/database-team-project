@@ -5,7 +5,9 @@ import knu.database.lms.repositories.ClassroomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,15 +46,6 @@ public class ClassroomController {
         return mav;
     }
 
-
-    // 2. 특정 건물의 모든 강의실 목록 조회 (2번 쿼리)
-    @GetMapping("/api/classroom/{buildingNumber}")
-    @ResponseBody
-    public List<Classroom> getClassroomList(@SessionAttribute(name = "userId", required = false) String userId,
-                                            @PathVariable int buildingNumber) throws SQLException {
-        isLogin(userId);
-        return classRoomRepository.getClassroomByBuilding(buildingNumber);
-    }
 
     private void isLogin(String studentId) {
         if (studentId == null) {
