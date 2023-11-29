@@ -18,3 +18,38 @@ label {
     margin-bottom: 15px;
     padding-bottom: 15px;
 }
+
+#timeSlots {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px 0;
+    width: 50%;
+}
+
+#timeSlots .timeSlot {
+    flex-grow: 1;
+    height: 20px;
+    border-right: 1px solid #000;
+    position: relative;
+}
+
+#timeSlots .timeSlot:last-child {
+    border-right: 0;
+}
+
+#timeSlots .timeSlot.reserved {
+    background-color: #f00;
+}
+
+#timeSlots .timeSlot .hour {
+    position: absolute;
+    top: -20px;
+    left: -1px;
+    width: 100%;
+    text-align: left;
+    font-size: 10px;
+}
+
+#reserveForm button:hover {
+    background-color: #dee2d6;
+}

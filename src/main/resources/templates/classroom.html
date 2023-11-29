@@ -33,22 +33,58 @@
 				<div class="reservation">
 					<h2> 강의실 예약 </h2>
 					<form id="form_reservation">
-						<label> 건물 번호  :
-							<input type="text" name="buildingNumber">
+						<label for="date">
+							날짜:
+							<input type="date" id="date" name="date">
 						</label>
-						<label> 강의실 코드 :
-							<input type="text" name="roomCode">
+						<label for="building">
+							건물 번호:
+							<input type="text" id="building" name="buildingNumber">
 						</label>
-						<label> 시작 시간 :
-							<input type="datetime-local" name='startDateTime'/>
+						<label for="classroom">
+							강의실 번호:
+							<input type="text" id="classroom" name="classroomNumber">
 						</label>
-						<label> 종료 시간 :
-							<input type="datetime-local" name='endDateTime'/>
-						</label>
-						<button type="button" onclick="reserve()" class="btn btn_sugang"> 예약 </button>
+						<button type="button" onclick="searchRoom()">조회</button>
 					</form>
+					<br><br>
+					<div id="timeSlots">
+
+					</div>
+					<br>
+					<form id="reserveForm">
+						<label for="startTime">
+							예약 시작 시간:
+							<input type="time" id="startTime" name="startTime">
+						</label>
+						<label for="endTime">
+							예약 종료 시간:
+							<input type="time" id="endTime" name="endTime">
+						</label>
+						<button type="button" onclick="reserveRoom()">예약하기</button>
+					</form>
+					<div class="reservation_list">
+						<h2> 강의실 예약 내역 </h2>
+						<table>
+							<th>건물 번호</th>
+							<th>강의실</th>
+							<th>예약 날짜 및 시간</th>
+							<th>(취소 칸)</th>
+<!--							<th:block th:each="takingClass : ${takingClasses}">-->
+<!--								<tr th:object="${takingClass}">-->
+<!--									<td th:text="*{lectureCode}"></td>-->
+<!--									<td th:text="*{sectionCode}"></td>-->
+<!--									<td th:text="*{lectureName}"></td>-->
+<!--									<td>-->
+<!--										<button-->
+<!--												th:param1="*{lectureCode}" th:param2="*{sectionCode}"-->
+<!--												th:onclick="untakeClass(this.getAttribute('param1'), this.getAttribute('param2'))"> 수강 취소</button>-->
+<!--									</td>-->
+<!--								</tr>-->
+<!--							</th:block>-->
+						</table>
+					</div>
 				</div>
-				
 				<div class="search">
 					<h2> 검색 창 </h2>
 					<form class="form_search" action="/classroom">
@@ -95,3 +131,33 @@
 	<script src="/js/classroom.js"></script>
 </body>
 </html>
+
+<script>
+	function searchRoom() {
+		var timeSlots = document.getElementById('timeSlots');
+
+		// 예약 데이터를 임시로 생성
+		var reservedTimes = [9, 10, 13, 14, 15];
+
+		// 시간대 표시
+		for (var i = 9; i <= 18; i++) {
+			var timeSlot = document.createElement('div');
+			timeSlot.classList.add('timeSlot');
+			if (reservedTimes.includes(i)) {
+				timeSlot.classList.add('reserved');
+			}
+
+			var hour = document.createElement('div');
+			hour.classList.add('hour');
+			hour.textContent = i;
+			timeSlot.appendChild(hour);
+
+			timeSlots.appendChild(timeSlot);
+		}
+	}
+
+	function reserveRoom() {
+		// 예약 처리 구현
+	}
+
+</script>
