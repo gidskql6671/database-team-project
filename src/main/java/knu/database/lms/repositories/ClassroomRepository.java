@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -178,6 +179,23 @@ public class ClassroomRepository {
         return reserveClassrooms;
     }
 
+    public List<int[]> getClassRoomAvailable(int buildingNumber, String roomCode, LocalDate date) throws SQLException{
+        Connection conn = dataSource.getConnection();
+        String sql = "SELECT START_TIMESTAMP, END_TIMESTAMP " +
+                "FROM RESERVED_CLASSROOM " +
+                "WHERE START_TIMESTAMP >= ? AND END_TIMESTAMP <= ? " +
+                "AND BUILDING_NUMBER = ? AND ROOM_CODE = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setObject(1, Timestamp.valueOf(date.atStartOfDay()));
+        ps.setObject(2, Timestamp.valueOf(date.atTime(23, 59, 59)));
+        ps.setInt(3, buildingNumber);
+        ps.setString(4, roomCode);
+
+        ResultSet rs = ps.executeQuery();
+
+        return getAvailableTimeSlots(rs);
+    }
+
     private boolean reservedClassroom(int buildingNumber, String roomCode,
                                       LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
         Connection conn = dataSource.getConnection();
@@ -199,5 +217,46 @@ public class ClassroomRepository {
         ps.close();
 
         return result;
+    }
+
+    private List<int[]> getAvailableTimeSlots(ResultSet rs) throws SQLException {
+        int totalHoursInDay = 24;
+        boolean[] isReserved = new boolean[totalHoursInDay];
+
+        while (rs.next()) {
+            LocalDateTime startTimestamp = rs.getTimestamp(1).toLocalDateTime();
+            LocalDateTime endTimestamp = rs.getTimestamp(2).toLocalDateTime();
+
+            int startHour = startTimestamp.getHour();
+            int endHour = endTimestamp.getHour();
+
+            for (int i = startHour; i < endHour; i++) {
+                isReserved[i] = true;
+            }
+        }
+
+        List<int[]> availableTimeSlots = new ArrayList<>();
+        int startHour = -1;
+
+        for (int hour = 0; hour < totalHoursInDay; hour++) {
+            if (!isReserved[hour]) {
+                if (startHour == -1) {
+                    startHour = hour;
+                }
+            } else {
+                if (startHour != -1) {
+                    int endHour = hour;
+                    availableTimeSlots.add(new int[]{startHour, endHour});
+                    startHour = -1;
+                }
+            }
+        }
+
+        // 마지막 예약된 시간대 처리
+        if (startHour != -1) {
+            availableTimeSlots.add(new int[]{startHour, totalHoursInDay});
+        }
+
+        return availableTimeSlots;
     }
 }
