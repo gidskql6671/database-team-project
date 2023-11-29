@@ -3,6 +3,7 @@ package knu.database.lms.controller;
 import knu.database.lms.dto.Classroom;
 import knu.database.lms.dto.ReserveClassroom;
 import knu.database.lms.dto.ReserveClassroomResult;
+import knu.database.lms.dto.controller.ClassRoomAvailableRequest;
 import knu.database.lms.dto.controller.ReserveClassroomRequestDto;
 import knu.database.lms.repositories.ClassroomRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -80,6 +83,13 @@ public class ClassroomController {
         return classRoomRepository.getReservedClassrooms(userId);
     }
 
+    @ResponseBody
+    @GetMapping("/api/classroom/available")
+    public List<int[]> getAvailableClassrooms(@SessionAttribute(name = "userId", required = false) String userId,
+                                              @RequestBody ClassRoomAvailableRequest request) throws SQLException {
+        isLogin(userId);
+        return classRoomRepository.getClassRoomAvailable(request.getBuildingNumber(), request.getRoomCode(), request.getDate());
+    }
 
     private void isLogin(String studentId) {
         if (studentId == null) {
