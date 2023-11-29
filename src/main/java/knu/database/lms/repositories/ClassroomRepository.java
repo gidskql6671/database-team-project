@@ -201,14 +201,13 @@ public class ClassroomRepository {
         Connection conn = dataSource.getConnection();
         String sql = "SELECT * FROM RESERVED_CLASSROOM " +
             "WHERE BUILDING_NUMBER = ? AND ROOM_CODE = ? " +
-            "AND ((? BETWEEN START_TIMESTAMP AND END_TIMESTAMP) OR " +
-            "(? BETWEEN START_TIMESTAMP AND END_TIMESTAMP))";
+            "AND START_TIMESTAMP < ? AND END_TIMESTAMP > ? ";
 
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, buildingNumber);
         ps.setString(2, roomCode);
-        ps.setObject(3, Timestamp.valueOf(startDateTime));
-        ps.setObject(4, Timestamp.valueOf(endDateTime));
+        ps.setObject(3, Timestamp.valueOf(endDateTime));
+        ps.setObject(4, Timestamp.valueOf(startDateTime));
 
         ResultSet rs = ps.executeQuery();
         boolean result = rs.next();
