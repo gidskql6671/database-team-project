@@ -1,6 +1,7 @@
 package knu.database.lms.repositories;
 
 import knu.database.lms.dto.Classroom;
+import knu.database.lms.dto.ReserveClassroom;
 import knu.database.lms.dto.ReserveClassroomResult;
 import org.springframework.stereotype.Repository;
 
@@ -105,6 +106,64 @@ public class ClassroomRepository {
         stmt.close();
 
         return ReserveClassroomResult.successResult();
+    }
+
+    public ReserveClassroomResult cancelClassroom(String studentId, int buildingNumber, String roomCode,
+                                                   LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
+        Connection conn = dataSource.getConnection();
+        conn.setAutoCommit(false);
+        conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
+        String  sql = "DELETE FROM RESERVED_CLASSROOM " +
+            "WHERE STUDENT_ID = ? AND BUILDING_NUMBER = ? AND ROOM_CODE = ? " +
+            "AND START_TIMESTAMP = ? AND END_TIMESTAMP = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, studentId);
+        ps.setInt(2, buildingNumber);
+        ps.setString(3, roomCode);
+        ps.setObject(4, Timestamp.valueOf(startDateTime));
+        ps.setObject(5, Timestamp.valueOf(endDateTime));
+        int result = ps.executeUpdate();
+
+        if (result == 0) {
+            return ReserveClassroomResult.failResult("알 수 없음.");
+        }
+
+        conn.commit();
+
+        ps.close();
+        conn.close();
+
+        return ReserveClassroomResult.successResult();
+    }
+
+    public List<ReserveClassroom> getReservedClassrooms(String studentId) throws SQLException {
+        Connection conn = dataSource.getConnection();
+
+        String sql = "SELECT BUILDING_NUMBER, ROOM_CODE, START_TIMESTAMP, END_TIMESTAMP " +
+                "FROM RESERVED_CLASSROOM " +
+                "WHERE STUDENT_ID = ? ";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, studentId);
+        ResultSet rs = ps.executeQuery();
+
+        List<ReserveClassroom> reserveClassrooms = new ArrayList<>();
+        while(rs.next()) {
+            reserveClassrooms.add(new ReserveClassroom(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getTimestamp(3).toLocalDateTime(),
+                rs.getTimestamp(4).toLocalDateTime()
+            ));
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return reserveClassrooms;
     }
 
     private boolean reservedClassroom(int buildingNumber, String roomCode,

@@ -1,8 +1,9 @@
 package knu.database.lms.controller;
 
 import knu.database.lms.dto.Classroom;
+import knu.database.lms.dto.ReserveClassroom;
 import knu.database.lms.dto.ReserveClassroomResult;
-import knu.database.lms.dto.controller.ReserveClassroomDto;
+import knu.database.lms.dto.controller.ReserveClassroomRequestDto;
 import knu.database.lms.repositories.ClassroomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,14 +49,35 @@ public class ClassroomController {
 
     @ResponseBody
     @PostMapping("/api/classroom")
-    public void reserveClassroom(@RequestBody ReserveClassroomDto reserveClassroomDto,
+    public void reserveClassroom(@RequestBody ReserveClassroomRequestDto reserveClassroomRequestDto,
                                  @SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
-        ReserveClassroomResult result = classRoomRepository.reserveClassroom(userId, reserveClassroomDto.getBuildingNumber(), reserveClassroomDto.getRoomCode(),
-                reserveClassroomDto.getStartDateTime(), reserveClassroomDto.getEndDateTime());
+        isLogin(userId);
+        ReserveClassroomResult result = classRoomRepository.reserveClassroom(userId, reserveClassroomRequestDto.getBuildingNumber(), reserveClassroomRequestDto.getRoomCode(),
+                reserveClassroomRequestDto.getStartDateTime(), reserveClassroomRequestDto.getEndDateTime());
 
         if (!result.isSuccess) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, result.message);
         }
+    }
+
+    @ResponseBody
+    @DeleteMapping("/api/classroom")
+    public void cancelClassroom(@RequestBody ReserveClassroomRequestDto reserveClassroomRequestDto,
+                                @SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
+        isLogin(userId);
+        ReserveClassroomResult result = classRoomRepository.cancelClassroom(userId, reserveClassroomRequestDto.getBuildingNumber(), reserveClassroomRequestDto.getRoomCode(),
+                reserveClassroomRequestDto.getStartDateTime(), reserveClassroomRequestDto.getEndDateTime());
+
+        if (!result.isSuccess) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, result.message);
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/api/classroom")
+    public List<ReserveClassroom> getReservedClassrooms(@SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
+        isLogin(userId);
+        return classRoomRepository.getReservedClassrooms(userId);
     }
 
 
@@ -64,4 +86,6 @@ public class ClassroomController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
         }
     }
+
+
 }
