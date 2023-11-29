@@ -1,13 +1,12 @@
 package knu.database.lms.repositories;
 
 import knu.database.lms.dto.Classroom;
+import knu.database.lms.dto.ReserveClassroomResult;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +65,68 @@ public class ClassroomRepository {
         return classrooms;
     }
 
+    public ReserveClassroomResult reserveClassroom(String studentId, int buildingNumber, String roomCode,
+                                                   LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
+        Connection conn = dataSource.getConnection();
+        Statement stmt = conn.createStatement();
+        conn.setAutoCommit(false);
+        conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
+        if (reservedClassroom(buildingNumber, roomCode, startDateTime, endDateTime)) {
+            throw new SQLException("이미 예약된 강의실입니다.");
+        }
 
+        int seqNextVal;
+        String sql = "SELECT reserved_classroom_seq.NEXTVAL FROM dual";
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        seqNextVal = rs.getInt(1);
+        rs.close();
+
+        sql = "INSERT INTO RESERVED_CLASSROOM VALUES (?, ?, ?, ?, ?, ?) ";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, seqNextVal);
+        ps.setString(2, studentId);
+        ps.setInt(3, buildingNumber);
+        ps.setString(4, roomCode);
+        ps.setObject(5, Timestamp.valueOf(startDateTime));
+        ps.setObject(6, Timestamp.valueOf(endDateTime));
+
+        int result = ps.executeUpdate();
+
+        if (result == 0) {
+            return ReserveClassroomResult.failResult("알 수 없음.");
+        }
+
+        conn.commit();
+
+        ps.close();
+        conn.close();
+        stmt.close();
+
+        return ReserveClassroomResult.successResult();
+    }
+
+    private boolean reservedClassroom(int buildingNumber, String roomCode,
+                                      LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
+        Connection conn = dataSource.getConnection();
+        String sql = "SELECT * FROM RESERVED_CLASSROOM " +
+            "WHERE BUILDING_NUMBER = ? AND ROOM_CODE = ? " +
+            "AND ((? BETWEEN START_TIMESTAMP AND END_TIMESTAMP) OR " +
+            "(? BETWEEN START_TIMESTAMP AND END_TIMESTAMP))";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, buildingNumber);
+        ps.setString(2, roomCode);
+        ps.setObject(3, Timestamp.valueOf(startDateTime));
+        ps.setObject(4, Timestamp.valueOf(endDateTime));
+
+        ResultSet rs = ps.executeQuery();
+        boolean result = rs.next();
+
+        rs.close();
+        ps.close();
+
+        return result;
+    }
 }
