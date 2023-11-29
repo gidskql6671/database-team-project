@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ReserveClassroomDto {
+public class ReserveClassroomRequestDto {
     private int buildingNumber;
     private String roomCode;
     private LocalDateTime startDateTime;
