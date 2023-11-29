@@ -68,6 +68,16 @@ public class ClassroomRepository {
 
     public ReserveClassroomResult reserveClassroom(String studentId, int buildingNumber, String roomCode,
                                                    LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
+        LocalDateTime now = LocalDateTime.now();
+
+        if (endDateTime.isBefore(now) || startDateTime.isBefore(now)) {
+            return ReserveClassroomResult.failResult("현재보다 이전 날짜로 예약할 수 없습니다.");
+        }
+
+        if (startDateTime.isAfter(endDateTime)) {
+            return ReserveClassroomResult.failResult("시작 시간이 종료 시간 보다 늦습니다.");
+        }
+
         Connection conn = dataSource.getConnection();
         Statement stmt = conn.createStatement();
         conn.setAutoCommit(false);
@@ -76,6 +86,8 @@ public class ClassroomRepository {
         if (reservedClassroom(buildingNumber, roomCode, startDateTime, endDateTime)) {
             throw new SQLException("이미 예약된 강의실입니다.");
         }
+
+
 
         int seqNextVal;
         String sql = "SELECT reserved_classroom_seq.NEXTVAL FROM dual";
