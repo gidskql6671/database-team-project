@@ -38,7 +38,7 @@ label {
 }
 
 #timeSlots .timeSlot.reserved {
-    background-color: #f00;
+    background-color: #E60000;
 }
 
 #timeSlots .timeSlot .hour {
