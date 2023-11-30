@@ -34,12 +34,31 @@
             게시자 : <span th:text="*{publisherName}" />
           </p>
           <p class="publisher">
-            작성 일자 : <span th:text="*{createdAt}" />
+            작성 일자 : <span th:text="*{
+            createdAt.toLocaleString().substring(0, createdAt.toLocaleString().length() -3)
+            }" />
           </p>
         </div>
         <p class="post_content"
            th:utext="${#strings.replace(post.content, nlString, '&lt;br /&gt;')}"></p>
       </div>
+      
+      <th:block th:each="comment : ${comments}">
+        <div class="container_comment" th:object="${comment}">
+          <div class="comment_meta">
+            <p class="publisher">
+              게시자 : <span th:text="*{publisherName}" />
+            </p>
+            <p class="publisher">
+              작성 일자 : <span th:text="*{
+              createdAt.toLocaleString().substring(0, createdAt.toLocaleString().length() -3)
+              }" />
+            </p>
+          </div>
+          <p class="comment_content"
+             th:utext="${#strings.replace(comment.content, nlString, '&lt;br /&gt;')}"></p>
+        </div>
+      </th:block>
     </main>
   </div>
   <script src="/js/class/post.js"></script>

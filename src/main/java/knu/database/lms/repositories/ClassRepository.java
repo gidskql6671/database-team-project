@@ -147,15 +147,16 @@ public class ClassRepository {
 		Connection conn = dataSource.getConnection();
 
 		List<Comment> result = new ArrayList<>();
-		String sql = "(SELECT C.COMMENT_ID, C.CONTENT, S.NAME " +
+		String sql = "(SELECT C.COMMENT_ID, C.CONTENT, S.NAME, C.CREATED_AT " +
 				"FROM POST P JOIN POST_COMMENT C ON P.POST_ID = C.POST_ID  " +
 				"JOIN STUDENT S ON S.STUDENT_ID = C.PUBLISHER_STUDENT_ID " +
 				"WHERE P.LECTURE_CODE = ? AND P.SECTION_CODE = ? AND C.POST_ID = ?) " +
 				"UNION " +
-				"(SELECT C.COMMENT_ID, C.CONTENT, PR.NAME " +
+				"(SELECT C.COMMENT_ID, C.CONTENT, PR.NAME, C.CREATED_AT " +
 				"FROM POST P JOIN POST_COMMENT C ON P.POST_ID = C.POST_ID  " +
 				"JOIN PROFESSOR PR ON PR.PROFESSOR_ID = C.PUBLISHER_PROFESSOR_ID " +
-				"WHERE P.LECTURE_CODE = ? AND P.SECTION_CODE = ? AND C.POST_ID = ?) ";
+				"WHERE P.LECTURE_CODE = ? AND P.SECTION_CODE = ? AND C.POST_ID = ?) " +
+				"ORDER BY CREATED_AT";
 		PreparedStatement ps = conn.prepareStatement(sql);
 
 		ps.setString(1, lectureCode);
@@ -171,7 +172,8 @@ public class ClassRepository {
 			Comment comment = new Comment(
 					rs.getInt(1),
 					rs.getString(2),
-					rs.getString(3)
+					rs.getString(3),
+					rs.getTimestamp(4)
 			);
 			result.add(comment);
 		}

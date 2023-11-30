@@ -79,35 +79,15 @@ public class ClassController {
 
         isTakingClass(userId, lectureCode, sectionCode);
         Post post = classRepository.getPost(lectureCode, sectionCode, postId);
+        List<Comment> comments = classRepository.getComments(lectureCode, sectionCode, postId);
 
         mav.addObject("post", post);
+        mav.addObject("comments", comments);
 
         String br = System.getProperty("line.separator");
         mav.addObject( "nlString", br);
 
         return mav;
-    }
-
-    // 3. 수강 중인 수업의 게시글 보기
-    @ResponseBody
-    @GetMapping("/api/class/{lectureCode}/{sectionCode}/post/{postId}")
-    public Post getClassPost(@SessionAttribute(name = "userId", required = false) String userId,
-                             @PathVariable String lectureCode, @PathVariable String sectionCode,
-                             @PathVariable int postId) throws SQLException {
-        isLogin(userId);
-        isTakingClass(userId, lectureCode, sectionCode);
-        return classRepository.getPost(lectureCode, sectionCode, postId);
-    }
-
-    // 4. 수강 중인 수업의 게시글의 댓글 목록 보기
-    @ResponseBody
-    @GetMapping("/api/class/{lectureCode}/{sectionCode}/post/{postId}/comment")
-    public List<Comment> getCommentList(@SessionAttribute(name = "userId", required = false) String userId,
-                                        @PathVariable String lectureCode, @PathVariable String sectionCode,
-                                        @PathVariable int postId) throws SQLException {
-        isLogin(userId);
-        isTakingClass(userId, lectureCode, sectionCode);
-        return classRepository.getComments(lectureCode, sectionCode, postId);
     }
 
     // 5. 어느 한 수업의 수강생 목록 보기
