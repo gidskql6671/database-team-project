@@ -9,8 +9,6 @@ document.getElementById('reservedDate').value = getDate(now);
 const urlParams = new URLSearchParams(window.location.search);
 document.getElementById('form_search').buildingNumber.value = urlParams.get('buildingNumber');
 
-setTimeInput()
-
 function setTimeInput() {
   const form = document.getElementById("form_reservation");
 
@@ -122,3 +120,30 @@ async function reserveRoom() {
 
   return false;
 }
+
+async function cancelReservation(reservedId) {
+  console.log(reservedId)
+}
+
+function setupReservedList() {
+  const elements = document.querySelectorAll(".reservedClass");
+
+  elements.forEach(element => {
+    const startDatetime = new Date(element.dataset.startDt);
+    const endDatetime = new Date(element.dataset.endDt);
+    const date = startDatetime.toLocaleDateString();
+    const startHour = startDatetime.getHours();
+    const endHour = endDatetime.getHours();
+
+    const datetimeEle = element.querySelector(".datetime")
+
+    datetimeEle.innerText = `${date} ${startHour}시 ~ ${endHour}시`;
+
+    if (startDatetime <= now) {
+      element.querySelector(".cancelBtn").style.visibility = "hidden";
+    }
+  })
+}
+
+setTimeInput();
+setupReservedList();

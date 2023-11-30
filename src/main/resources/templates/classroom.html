@@ -69,18 +69,21 @@
 							<th>강의실</th>
 							<th>예약 날짜 및 시간</th>
 							<th>(취소 칸)</th>
-<!--							<th:block th:each="takingClass : ${takingClasses}">-->
-<!--								<tr th:object="${takingClass}">-->
-<!--									<td th:text="*{lectureCode}"></td>-->
-<!--									<td th:text="*{sectionCode}"></td>-->
-<!--									<td th:text="*{lectureName}"></td>-->
-<!--									<td>-->
-<!--										<button-->
-<!--												th:param1="*{lectureCode}" th:param2="*{sectionCode}"-->
-<!--												th:onclick="untakeClass(this.getAttribute('param1'), this.getAttribute('param2'))"> 수강 취소</button>-->
-<!--									</td>-->
-<!--								</tr>-->
-<!--							</th:block>-->
+							<th:block th:each="reservedClassroom : ${reservedClassrooms}">
+								<tr class="reservedClass"
+								    th:object="${reservedClassroom}"
+								    th:attr="data-start-dt=*{startDateTime},data-end-dt=*{endDateTime}">
+									<td th:text="*{buildingNumber}"></td>
+									<td th:text="*{roomCode}"></td>
+									<td class="datetime"> 시간 </td>
+									<td>
+										<button
+												class="cancelBtn"
+												th:param1="*{reservedId}"
+												th:onclick="cancelReservation(this.getAttribute('param1'))"> 수강 취소</button>
+									</td>
+								</tr>
+							</th:block>
 						</table>
 					</div>
 				</div>

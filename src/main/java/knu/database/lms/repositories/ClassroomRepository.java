@@ -153,7 +153,7 @@ public class ClassroomRepository {
     public List<ReserveClassroom> getReservedClassrooms(String studentId) throws SQLException {
         Connection conn = dataSource.getConnection();
 
-        String sql = "SELECT BUILDING_NUMBER, ROOM_CODE, START_TIMESTAMP, END_TIMESTAMP " +
+        String sql = "SELECT RESERVED_ID, BUILDING_NUMBER, ROOM_CODE, START_TIMESTAMP, END_TIMESTAMP " +
                 "FROM RESERVED_CLASSROOM " +
                 "WHERE STUDENT_ID = ? ";
 
@@ -165,10 +165,11 @@ public class ClassroomRepository {
         List<ReserveClassroom> reserveClassrooms = new ArrayList<>();
         while(rs.next()) {
             reserveClassrooms.add(new ReserveClassroom(
-                rs.getInt(1),
-                rs.getString(2),
-                rs.getTimestamp(3).toLocalDateTime(),
-                rs.getTimestamp(4).toLocalDateTime()
+                    rs.getInt(1),
+                    rs.getInt(2),
+                rs.getString(3),
+                rs.getTimestamp(4).toLocalDateTime(),
+                rs.getTimestamp(5).toLocalDateTime()
             ));
         }
 

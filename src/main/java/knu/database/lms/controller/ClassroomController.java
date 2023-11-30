@@ -45,6 +45,10 @@ public class ClassroomController {
             mav.addObject("classrooms", classrooms);
         }
 
+        List<ReserveClassroom> reservedClassrooms = classRoomRepository.getReservedClassrooms(userId);
+
+        mav.addObject("reservedClassrooms", reservedClassrooms);
+
         return mav;
     }
 
