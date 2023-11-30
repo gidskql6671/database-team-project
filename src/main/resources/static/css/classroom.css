@@ -19,6 +19,58 @@ label {
     padding-bottom: 15px;
 }
 
+.reservation_form {
+    padding: 20px;
+    width : 35%;
+    background-color: #f2f2f2;
+}
+
+#form_reservation {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#form_reservation button {
+    background-color: #696969;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+}
+
+#form_reservation button:hover {
+    background-color: #494949;
+}
+
+.row_form {
+    display: flex; /* form 내부 요소들을 flexbox로 설정 */
+    justify-content: flex-start; /* form 내부 요소들을 양쪽으로 정렬 */
+    width: 90%; /* form_row의 너비를 최대로 설정 */
+}
+.row_form label {
+    width: auto;
+    flex: 1; /* 각 라벨이 동일한 공간을 차지하도록 설정 */
+    display: flex; /* 라벨을 flexbox로 만듬 */
+    flex-direction: column; /* 라벨 내부의 요소들을 세로로 배치 */
+}
+
+.row_form label input, .row_form label select {
+    width: 95%; /* 입력창의 가로 길이를 줄임 */
+    margin-top: 10px; /* 라벨과 입력창 사이의 간격을 설정 */
+}
+.row_form_date input {
+    height: 27px; /* 날짜 입력창의 세로 길이를 조절 */
+}
+.row_form_room input{
+    height: 23px;
+}
+.row_form label select {
+    height: 27px;
+}
+.row_form label:not(:last-child) {
+    margin-right: 5px; /* 라벨들 사이의 간격을 설정 */
+}
+
 #timeSlots {
     display: flex;
     justify-content: flex-start;
@@ -38,7 +90,7 @@ label {
 }
 
 #timeSlots .timeSlot.available {
-    background-color: #E60000;
+    background-color: #4682b4;
 }
 
 #timeSlots .timeSlot .hour {
@@ -52,6 +104,16 @@ label {
 
 #reserveForm button:hover {
     background-color: #dee2d6;
+}
+
+#form_search button {
+    background-color: #696969;
+    color: white;
+    border: none;
+    padding: 3px 20px;
+}
+#form_search button:hover {
+    background-color:#494949;
 }
 
 .list_table {
