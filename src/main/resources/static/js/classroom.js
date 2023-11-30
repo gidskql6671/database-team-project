@@ -1,6 +1,16 @@
+const now = new Date();
 
-document.getElementById('startDateTime').value= new Date().toISOString().slice(11, 16);
-document.getElementById('endDateTime').value= new Date().toISOString().slice(11, 16);
+function getDate(date) {
+  return date.toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-');
+}
+
+function getTime(date) {
+  return date.toTimeString().slice(0, 8);
+}
+
+document.getElementById('reservedDate').value = getDate(now);
+document.getElementById('startTime').value = getTime(now);
+document.getElementById('endTime').value = getTime(now);
 
 async function reserve() {
   const form = document.getElementById("form_reservation");
@@ -31,4 +41,48 @@ async function reserve() {
   }
 
   return false;
+}
+
+async function searchRoom() {
+  const timeSlots = document.getElementById('timeSlots');
+  const form = document.getElementById('form_reservation');
+
+  const searchDate = form.date.value;
+  const buildingNumber = form.buildingNumber.value;
+  const roomCode = form.roomCode.value;
+
+  const url = new URL("http://localhost:8080/api/classroom/available");
+  url.searchParams.append('buildingNumber', buildingNumber);
+  url.searchParams.append('roomCode', roomCode);
+  url.searchParams.append('date', searchDate);
+
+  const response = await fetch(url, {method: 'GET'});
+
+  // TODO 예외 처리
+
+  const resData = await response.json();
+
+  const availableTimes = resData
+      .flatMap(([start, end]) => [...Array(end - start).keys()].map(key => key + start))
+
+  timeSlots.innerHTML = '';
+  for (let i = 0; i <= 24; i++) {
+    const timeSlot = document.createElement('div');
+    timeSlot.classList.add('timeSlot');
+
+    if (availableTimes.includes(i)) {
+      timeSlot.classList.add('available');
+    }
+
+    const hour = document.createElement('div');
+    hour.classList.add('hour');
+    hour.textContent = i.toString();
+    timeSlot.appendChild(hour);
+
+    timeSlots.appendChild(timeSlot);
+  }
+}
+
+function reserveRoom() {
+  // 예약 처리 구현
 }
