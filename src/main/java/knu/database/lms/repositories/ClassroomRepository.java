@@ -149,7 +149,8 @@ public class ClassroomRepository {
 
         String sql = "SELECT RESERVED_ID, BUILDING_NUMBER, ROOM_CODE, START_TIMESTAMP, END_TIMESTAMP " +
                 "FROM RESERVED_CLASSROOM " +
-                "WHERE STUDENT_ID = ? ";
+                "WHERE STUDENT_ID = ? " +
+                "ORDER BY START_TIMESTAMP, END_TIMESTAMP";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -193,7 +194,7 @@ public class ClassroomRepository {
 
     public boolean existsClassroom(int buildingNumber, String roomCode) throws SQLException {
         Connection conn = dataSource.getConnection();
-        String sql = "SELECT * FROM RESERVED_CLASSROOM WHERE BUILDING_NUMBER = ? AND ROOM_CODE = ?";
+        String sql = "SELECT * FROM CLASSROOM WHERE BUILDING_NUMBER = ? AND ROOM_CODE = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, buildingNumber);
