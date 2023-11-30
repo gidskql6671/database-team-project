@@ -3,6 +3,7 @@ package knu.database.lms.controller;
 import knu.database.lms.dto.Classroom;
 import knu.database.lms.dto.ReserveClassroom;
 import knu.database.lms.dto.ReserveClassroomResult;
+import knu.database.lms.dto.controller.CancelClassroomRequestDto;
 import knu.database.lms.dto.controller.ClassRoomAvailableRequest;
 import knu.database.lms.dto.controller.ReserveClassroomRequestDto;
 import knu.database.lms.repositories.ClassroomRepository;
@@ -56,8 +57,6 @@ public class ClassroomController {
     @PostMapping("/api/classroom")
     public void reserveClassroom(@RequestBody ReserveClassroomRequestDto reserveClassroomRequestDto,
                                  @SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
-        System.out.println("reserveClassroomRequestDto.getStartDateTime() = " + reserveClassroomRequestDto.getStartDateTime());
-        
         isLogin(userId);
         ReserveClassroomResult result = classRoomRepository.reserveClassroom(userId, reserveClassroomRequestDto.getBuildingNumber(), reserveClassroomRequestDto.getRoomCode(),
                 reserveClassroomRequestDto.getStartDateTime(), reserveClassroomRequestDto.getEndDateTime());
@@ -69,11 +68,10 @@ public class ClassroomController {
 
     @ResponseBody
     @DeleteMapping("/api/classroom")
-    public void cancelClassroom(@RequestBody ReserveClassroomRequestDto reserveClassroomRequestDto,
+    public void cancelClassroom(@RequestBody CancelClassroomRequestDto req,
                                 @SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
         isLogin(userId);
-        ReserveClassroomResult result = classRoomRepository.cancelClassroom(userId, reserveClassroomRequestDto.getBuildingNumber(), reserveClassroomRequestDto.getRoomCode(),
-                reserveClassroomRequestDto.getStartDateTime(), reserveClassroomRequestDto.getEndDateTime());
+        ReserveClassroomResult result = classRoomRepository.cancelClassroom(userId, req.getReservedId());
 
         if (!result.isSuccess) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, result.message);

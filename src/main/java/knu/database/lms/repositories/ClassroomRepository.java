@@ -121,21 +121,15 @@ public class ClassroomRepository {
         return ReserveClassroomResult.successResult();
     }
 
-    public ReserveClassroomResult cancelClassroom(String studentId, int buildingNumber, String roomCode,
-                                                   LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
+    public ReserveClassroomResult cancelClassroom(String studentId, int reservedId) throws SQLException {
         Connection conn = dataSource.getConnection();
         conn.setAutoCommit(false);
         conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
-        String  sql = "DELETE FROM RESERVED_CLASSROOM " +
-            "WHERE STUDENT_ID = ? AND BUILDING_NUMBER = ? AND ROOM_CODE = ? " +
-            "AND START_TIMESTAMP = ? AND END_TIMESTAMP = ?";
+        String  sql = "DELETE FROM RESERVED_CLASSROOM WHERE STUDENT_ID = ? AND RESERVED_ID = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, studentId);
-        ps.setInt(2, buildingNumber);
-        ps.setString(3, roomCode);
-        ps.setObject(4, Timestamp.valueOf(startDateTime));
-        ps.setObject(5, Timestamp.valueOf(endDateTime));
+        ps.setInt(2, reservedId);
         int result = ps.executeUpdate();
 
         if (result == 0) {

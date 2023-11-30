@@ -122,7 +122,22 @@ async function reserveRoom() {
 }
 
 async function cancelReservation(reservedId) {
-  console.log(reservedId)
+  const response = await fetch("http://localhost:8080/api/classroom", {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({reservedId: reservedId})
+  });
+
+  if (response.ok) {
+    location.reload();
+  }
+  else {
+    const reason = (await response.json()).msg
+
+    alert(`강의실 예약 취소가 실패했습니다.\n사유: ${reason}`);
+  }
+
+  return false;
 }
 
 function setupReservedList() {
