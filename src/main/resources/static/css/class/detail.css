@@ -9,11 +9,13 @@
     border-radius: 5px;
     padding: 30px 30px 0 30px;
 
-    font-size: larger;
+    /*font-size: larger;*/
+    font-size: medium;
 }
 
 .post_title {
-    font-size: xx-large;
+    font-size: x-large;
+    font-weight: bold;
     display: block;
 }
 
