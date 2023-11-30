@@ -277,43 +277,24 @@ public class ClassRepository {
 
 	public WriteComment writeComment(int postId, String content, String publisherStudentId) throws SQLException {
 		Connection conn = dataSource.getConnection();
-		Statement stmt = conn.createStatement();
 
-		String sql = "SELECT COMMENT_ID " +
-				"FROM POST_COMMENT " +
-				"WHERE ROWNUM = 1 " +
-				"ORDER BY COMMENT_ID DESC";
-
-		ResultSet rs = stmt.executeQuery(sql);
-		int newCommentId;
-		if (!rs.next()) {
-			newCommentId = 1;
-		}
-		else {
-			newCommentId = rs.getInt(1) + 1;
-		}
-		LocalDateTime createdAt = LocalDateTime.now();
-
-		sql = "INSERT INTO POST_COMMENT VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO POST_COMMENT VALUES (POST_COMMENT_SEQ.nextval, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conn.prepareStatement(sql);
 
-		ps.setInt(1, newCommentId);
-		ps.setDate(2, Date.valueOf(createdAt.toLocalDate()));
-		ps.setString(3, content);
-		ps.setInt(4, postId);
-		ps.setString(5, publisherStudentId);
-		ps.setNull(6, Types.VARCHAR);
+		ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+		ps.setString(2, content);
+		ps.setInt(3, postId);
+		ps.setString(4, publisherStudentId);
+		ps.setNull(5, Types.VARCHAR);
 
-		int insertResult = ps.executeUpdate();
+		int rs = ps.executeUpdate();
 
-		if (insertResult == 0) {
+		if (rs == 0) {
 			return WriteComment.failWritePost("알 수 없음.");
 		}
-		conn.commit();
 
 		WriteComment result = WriteComment.successWritePost();
 
-		rs.close();
 		ps.close();
 		conn.close();
 

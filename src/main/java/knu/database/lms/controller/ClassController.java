@@ -127,7 +127,7 @@ public class ClassController {
                              @RequestBody CreateCommentRequestDto commentRequestDto) throws SQLException {
         isLogin(userId);
         isTakingClass(userId, lectureCode, sectionCode);
-        classRepository.writeComment(commentRequestDto.getPostId(), commentRequestDto.getContent(), userId);
+        classRepository.writeComment(postId, commentRequestDto.getContent(), userId);
     }
 
     private void isTakingClass(String studentId, String lectureCode, String sectionCode) throws SQLException {

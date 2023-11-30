@@ -59,6 +59,18 @@
              th:utext="${#strings.replace(comment.content, nlString, '&lt;br /&gt;')}"></p>
         </div>
       </th:block>
+      
+      <form id="form_comment">
+        <label>
+          <textarea name="comment" rows="3"></textarea>
+        </label>
+        <button type="button"
+                th:param1="${lectureCode}"
+                th:param2="${sectionCode}"
+                th:param3="${postId}"
+                onclick="postComment(this.getAttribute('param1'), this.getAttribute('param2'), this.getAttribute('param3'))"> 등록 </button>
+      </form>
+      
     </main>
   </div>
   <script src="/js/class/post.js"></script>
