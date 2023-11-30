@@ -86,9 +86,21 @@
     box-sizing: border-box;
     height: 70px;
 }
+#form_comment button {
+    background-color: #696969;
+    color: white;
+    border: none;
+    padding: 3px 20px;
+    height: 70px;
+}
+
+#form_comment button:hover {
+    background-color:#494949;
+}
 
 .btn_send {
     font-size: large;
     box-sizing: border-box;
     height: 70px;
+
 }
