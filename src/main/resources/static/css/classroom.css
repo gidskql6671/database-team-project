@@ -23,12 +23,12 @@ label {
     display: flex;
     justify-content: flex-start;
     padding: 10px 0;
-    width: 50%;
+    width: 100%;
 }
 
 #timeSlots .timeSlot {
     flex-grow: 1;
-    height: 20px;
+    height: 30px;
     border-right: 1px solid #000;
     position: relative;
 }
@@ -43,11 +43,11 @@ label {
 
 #timeSlots .timeSlot .hour {
     position: absolute;
-    top: -20px;
-    left: -1px;
+    top: -25px;
+    left: -8px;
     width: 100%;
     text-align: left;
-    font-size: 10px;
+    font-size: 18px;
 }
 
 #reserveForm button:hover {

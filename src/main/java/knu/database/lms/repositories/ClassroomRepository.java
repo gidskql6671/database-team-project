@@ -219,8 +219,9 @@ public class ClassroomRepository {
     }
 
     private List<int[]> getAvailableTimeSlots(ResultSet rs) throws SQLException {
-        int totalHoursInDay = 24;
-        boolean[] isReserved = new boolean[totalHoursInDay];
+        int startTime = 8;
+        int endTime = 22;
+        boolean[] isReserved = new boolean[24];
 
         while (rs.next()) {
             LocalDateTime startTimestamp = rs.getTimestamp(1).toLocalDateTime();
@@ -237,7 +238,7 @@ public class ClassroomRepository {
         List<int[]> availableTimeSlots = new ArrayList<>();
         int startHour = -1;
 
-        for (int hour = 0; hour < totalHoursInDay; hour++) {
+        for (int hour = startTime; hour < endTime; hour++) {
             if (!isReserved[hour]) {
                 if (startHour == -1) {
                     startHour = hour;
@@ -253,7 +254,7 @@ public class ClassroomRepository {
 
         // 마지막 예약된 시간대 처리
         if (startHour != -1) {
-            availableTimeSlots.add(new int[]{startHour, totalHoursInDay});
+            availableTimeSlots.add(new int[]{startHour, endTime});
         }
 
         return availableTimeSlots;
