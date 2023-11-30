@@ -14,8 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -86,7 +84,7 @@ public class ClassroomController {
     @ResponseBody
     @GetMapping("/api/classroom/available")
     public List<int[]> getAvailableClassrooms(@SessionAttribute(name = "userId", required = false) String userId,
-                                              @RequestBody ClassRoomAvailableRequest request) throws SQLException {
+                                              @ModelAttribute ClassRoomAvailableRequest request) throws SQLException {
         isLogin(userId);
         return classRoomRepository.getClassRoomAvailable(request.getBuildingNumber(), request.getRoomCode(), request.getDate());
     }

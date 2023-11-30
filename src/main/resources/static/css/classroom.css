@@ -37,7 +37,7 @@ label {
     border-right: 0;
 }
 
-#timeSlots .timeSlot.reserved {
+#timeSlots .timeSlot.available {
     background-color: #E60000;
 }
 
