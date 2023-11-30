@@ -66,7 +66,7 @@ async function searchRoom() {
       .flatMap(([start, end]) => [...Array(end - start).keys()].map(key => key + start))
 
   timeSlots.innerHTML = '';
-  for (let i = 0; i <= 24; i++) {
+  for (let i = 7; i <= 23; i++) {
     const timeSlot = document.createElement('div');
     timeSlot.classList.add('timeSlot');
 
