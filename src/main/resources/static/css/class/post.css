@@ -1,5 +1,5 @@
 .container_post {
-    border: 1px solid black;
+    border: 1px solid #666666;
     margin: 0;
     width: 90%;
 
@@ -7,7 +7,7 @@
 
     margin-bottom: 30px;
 
-    border-top: 2px solid #000000;
+    border-top: 2px solid #666666;
     border-left: 0;
     border-right: 0;
     width: 80%;
@@ -16,9 +16,9 @@
 
 .post_title {
     margin: 0;
-    font-size: xx-large;
+    font-size: x-large;
     display: block;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #666666;
     margin-bottom: 0;
     background-color: #EEF1F7;
     padding: 20px;
@@ -34,7 +34,7 @@
 }
 
 .publisher {
-    /*font-size: medium;*/
+    font-size: medium;
     margin-right: 10px;
     margin-left: 10px;
 }
@@ -45,15 +45,11 @@
 }
 
 .container_comment {
-    border: 1px solid black;
+    border: 1px solid #666666;
     border-radius: 5px;
     padding: 20px;
     width: 60%;
-    /*margin: 0 0 15px 30px;*/
     margin: 20px 0 15px 90px;
-    /*margin: 0 auto;*/
-    /*margin-top: 20px;*/
-    /*margin-bottom: 15px;*/
 
     font-size: larger;
 }
@@ -61,16 +57,20 @@
 .comment_meta {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+/*    margin-bottom: 30px;*/
+    border-bottom: 1px solid #cccccc;
+}
+
+.comment_content {
+    margin: 20px 0 30px 10px;
 }
 
 #form_comment {
-    border: 1px solid black;
+    border: 1px solid #666666;
     border-radius: 5px;
     padding: 20px;
     width: 60%;
     margin: 20px 0 15px 90px;
-    /*margin: 0 0 15px 30px;*/
 
     display: flex;
 }
