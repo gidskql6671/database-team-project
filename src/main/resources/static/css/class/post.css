@@ -57,7 +57,6 @@
 .comment_meta {
     display: flex;
     justify-content: space-between;
-/*    margin-bottom: 30px;*/
     border-bottom: 1px solid #cccccc;
 }
 
@@ -88,6 +87,7 @@
 }
 #form_comment button {
     background-color: #696969;
+    border-radius: 5px;
     color: white;
     border: none;
     padding: 3px 20px;
