@@ -40,7 +40,9 @@
                 게시자 : <span th:text="*{publisherName}" />
               </p>
               <p class="publisher">
-                작성 일자 : <span th:text="*{createdAt}" />
+                작성 일자 : <span th:text="*{
+                createdAt.toLocaleString().substring(0, createdAt.toLocaleString().length() -3)
+                }" />
               </p>
             </div>
           </li>
@@ -60,7 +62,9 @@
                   게시자 : <span th:text="*{publisherName}" />
                 </p>
                 <p class="publisher">
-                  작성 일자 : <span th:text="*{createdAt}" />
+                  작성 일자 : <span th:text="*{
+                  createdAt.toLocaleString().substring(0, createdAt.toLocaleString().length() -3)
+                  }" />
                 </p>
               </div>
             </li>
