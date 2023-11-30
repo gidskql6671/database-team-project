@@ -15,7 +15,9 @@ async function reserve() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       buildingNumber: buildingNumber,
-      roomCode: roomCode
+      roomCode: roomCode,
+      startDateTime: startDateTime,
+      endDateTime: endDateTime
     })
   });
 

@@ -7,3 +7,29 @@ table, td, th {
     border-bottom: 1px solid gray;
     padding-bottom: 30px;
 }
+
+.list_table {
+    border-collapse: collapse;
+    border-top: 2px solid #000000;
+    border-left: 0;
+    border-right: 0;
+}
+.list_table th {
+    color: #000000;
+    background: #EEF1F7;
+    text-align: center;
+}
+.list_table th, .list_table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.list_table th:first-child, .list_table td:first-child {
+    border-left: 0;
+}
+.list_table th:last-child, .list_table td:last-child {
+    border-right: 0;
+}
+.list_table tr td:first-child{
+    text-align: center;
+}
+.list_table caption{caption-side: bottom; display: none;}
