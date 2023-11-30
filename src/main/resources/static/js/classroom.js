@@ -4,46 +4,32 @@ function getDate(date) {
   return date.toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-');
 }
 
-function getTime(date) {
-  return date.toTimeString().slice(0, 8);
-}
-
 document.getElementById('reservedDate').value = getDate(now);
-document.getElementById('startTime').value = getTime(now);
-document.getElementById('endTime').value = getTime(now);
 
 const urlParams = new URLSearchParams(window.location.search);
 document.getElementById('form_search').buildingNumber.value = urlParams.get('buildingNumber');
 
-async function reserve() {
+setTimeInput()
+
+function setTimeInput() {
   const form = document.getElementById("form_reservation");
 
-  const buildingNumber = form.buildingNumber.value;
-  const roomCode = form.roomCode.value;
-  const startDateTime = form.startDateTime.value;
-  const endDateTime = form.endDateTime.value;
+  const startTime = form.startTime;
+  const endTime = form.endTime;
 
-  const response = await fetch("http://localhost:8080/api/classroom", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      buildingNumber: buildingNumber,
-      roomCode: roomCode,
-      startDateTime: startDateTime,
-      endDateTime: endDateTime
-    })
-  });
-
-  if (response.ok) {
-    location.reload();
-  }
-  else {
-    const reason = (await response.json()).msg
-
-    alert(`강의실 예약이 실패했습니다.\n사유: ${reason}`);
+  for (let i = 8; i <= 21; i++) {
+    const opt = document.createElement("option");
+    opt.value = i.toString();
+    opt.text = `${i}시`;
+    startTime.appendChild(opt);
   }
 
-  return false;
+  for (let i = 9; i <= 22; i++) {
+    const opt = document.createElement("option");
+    opt.value = i.toString();
+    opt.text = `${i}시`;
+    endTime.appendChild(opt);
+  }
 }
 
 async function searchRoom() {
@@ -93,6 +79,46 @@ async function searchRoom() {
   }
 }
 
-function reserveRoom() {
-  // 예약 처리 구현
+async function reserveRoom() {
+  const form = document.getElementById("form_reservation");
+
+  const reservedDate = form.date.value;
+  const buildingNumber = form.buildingNumber.value;
+  const roomCode = form.roomCode.value;
+  const startTime = Number(form.startTime.value);
+  const endTime = Number(form.endTime.value);
+
+  if (startTime >= endTime) {
+    alert("예약 시간이 부적합합니다.");
+
+    return false;
+  }
+
+  const startDateTime = new Date(`${reservedDate} ${startTime}:00:00`);
+  const endDateTime = new Date(`${reservedDate} ${endTime}:00:00`);
+
+  startDateTime.setHours(startDateTime.getHours() + 9);
+  endDateTime.setHours(endDateTime.getHours() + 9);
+
+  const response = await fetch("http://localhost:8080/api/classroom", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      buildingNumber: buildingNumber,
+      roomCode: roomCode,
+      startDateTime: startDateTime,
+      endDateTime: endDateTime
+    })
+  });
+
+  if (response.ok) {
+    location.reload();
+  }
+  else {
+    const reason = (await response.json()).msg
+
+    alert(`강의실 예약이 실패했습니다.\n사유: ${reason}`);
+  }
+
+  return false;
 }
