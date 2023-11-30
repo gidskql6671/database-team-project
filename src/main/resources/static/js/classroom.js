@@ -12,6 +12,9 @@ document.getElementById('reservedDate').value = getDate(now);
 document.getElementById('startTime').value = getTime(now);
 document.getElementById('endTime').value = getTime(now);
 
+const urlParams = new URLSearchParams(window.location.search);
+document.getElementById('form_search').buildingNumber.value = urlParams.get('buildingNumber');
+
 async function reserve() {
   const form = document.getElementById("form_reservation");
 
@@ -56,9 +59,16 @@ async function searchRoom() {
   url.searchParams.append('roomCode', roomCode);
   url.searchParams.append('date', searchDate);
 
-  const response = await fetch(url, {method: 'GET'});
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  });
 
-  // TODO 예외 처리
+  if (response.status === 404) {
+    alert("존재하지 않는 강의실입니다.");
+
+    return;
+  }
 
   const resData = await response.json();
 

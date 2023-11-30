@@ -86,7 +86,15 @@ public class ClassroomController {
     public List<int[]> getAvailableClassrooms(@SessionAttribute(name = "userId", required = false) String userId,
                                               @ModelAttribute ClassRoomAvailableRequest request) throws SQLException {
         isLogin(userId);
-        return classRoomRepository.getClassRoomAvailable(request.getBuildingNumber(), request.getRoomCode(), request.getDate());
+
+        int buildingNumber = request.getBuildingNumber();
+        String roomCode = request.getRoomCode();
+
+        if (!classRoomRepository.existsClassroom(buildingNumber, roomCode)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "강의실이 존재하지 않습니다.");
+        }
+
+        return classRoomRepository.getClassRoomAvailable(buildingNumber, roomCode, request.getDate());
     }
 
     private void isLogin(String studentId) {
