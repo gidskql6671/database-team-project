@@ -196,6 +196,25 @@ public class ClassroomRepository {
         return getAvailableTimeSlots(rs);
     }
 
+    public boolean existsClassroom(int buildingNumber, String roomCode) throws SQLException {
+        Connection conn = dataSource.getConnection();
+        String sql = "SELECT * FROM RESERVED_CLASSROOM WHERE BUILDING_NUMBER = ? AND ROOM_CODE = ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, buildingNumber);
+        ps.setString(2, roomCode);
+
+        ResultSet rs = ps.executeQuery();
+
+        boolean result = rs.next();
+
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return result;
+    }
+
     private boolean reservedClassroom(int buildingNumber, String roomCode,
                                       LocalDateTime startDateTime, LocalDateTime endDateTime) throws SQLException {
         Connection conn = dataSource.getConnection();
