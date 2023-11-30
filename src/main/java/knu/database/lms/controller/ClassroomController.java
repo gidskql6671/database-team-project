@@ -52,6 +52,8 @@ public class ClassroomController {
     @PostMapping("/api/classroom")
     public void reserveClassroom(@RequestBody ReserveClassroomRequestDto reserveClassroomRequestDto,
                                  @SessionAttribute(name = "userId", required = false) String userId) throws SQLException {
+        System.out.println("reserveClassroomRequestDto.getStartDateTime() = " + reserveClassroomRequestDto.getStartDateTime());
+        
         isLogin(userId);
         ReserveClassroomResult result = classRoomRepository.reserveClassroom(userId, reserveClassroomRequestDto.getBuildingNumber(), reserveClassroomRequestDto.getRoomCode(),
                 reserveClassroomRequestDto.getStartDateTime(), reserveClassroomRequestDto.getEndDateTime());

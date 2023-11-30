@@ -52,11 +52,11 @@
 						
 						<label>
 							예약 시작 시간:
-							<input type="time" id="startTime" name="startTime">
+							<select name="startTime" id="startTime"> </select>
 						</label>
 						<label>
 							예약 종료 시간:
-							<input type="time" id="endTime" name="endTime">
+							<select name="endTime" id="endTime"> </select>
 						</label>
 						<button type="button" onclick="reserveRoom()">예약하기</button>
 					</form>
@@ -86,7 +86,7 @@
 				</div>
 				<div class="search">
 					<h2> 검색 창 </h2>
-					<form class="form_search" action="/classroom">
+					<form id="form_search" action="/classroom">
 						<label>
 							건물 번호 :
 							<input type="text" name="buildingNumber">

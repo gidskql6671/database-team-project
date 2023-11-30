@@ -8,7 +8,7 @@ label {
     margin-bottom: 10px;
 }
 
-.form_search label {
+#form_search label {
     display: inline;
     margin-right: 15px;
 }
