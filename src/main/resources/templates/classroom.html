@@ -64,7 +64,7 @@
 					
 					<div class="reservation_list">
 						<h2> 강의실 예약 내역 </h2>
-						<table>
+						<table class="list_table">
 							<th>건물 번호</th>
 							<th>강의실</th>
 							<th>예약 날짜 및 시간</th>
@@ -101,7 +101,7 @@
 				<div class="list">
 					<th:block th:if="${buildingNumbers != null}">
 						<h2> 건물 목록 </h2>
-						<table>
+						<table class="list_table">
 							<th>건물 번호</th>
 							<th:block th:each="buildingNumber : ${buildingNumbers}">
 								<tr>
@@ -112,7 +112,7 @@
 					</th:block>
 					<th:block th:if="${classrooms != null}">
 						<h2> 강의실 목록 </h2>
-						<table>
+						<table class="list_table">
 							<th>건물 번호</th>
 							<th>강의실 코드</th>
 							<th>강의실 이름</th>
