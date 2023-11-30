@@ -10,7 +10,7 @@ table, td, th {
 
 .list_table {
     border-collapse: collapse;
-    border-top: 2px solid #000000;
+    border-top: 2px solid #666666;
     border-left: 0;
     border-right: 0;
 }
