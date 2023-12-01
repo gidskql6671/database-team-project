@@ -96,6 +96,7 @@
 
 #form_comment button:hover {
     background-color:#494949;
+    cursor: pointer;
 }
 
 .btn_send {
