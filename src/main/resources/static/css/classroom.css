@@ -37,11 +37,13 @@ label {
     color: white;
     border: none;
     padding: 8px 20px;
+    border-radius: 8px;
     margin-top: 10px;
 }
 
 #form_reservation button:hover {
     background-color: #494949;
+    cursor: pointer;
 }
 
 .row_form {
@@ -139,6 +141,7 @@ label {
 
 #reserveForm button:hover {
     background-color: #dee2d6;
+    cursor: pointer;
 }
 
 #form_search button {
@@ -146,9 +149,23 @@ label {
     color: white;
     border: none;
     padding: 3px 20px;
+    border-radius: 5px;
 }
 #form_search button:hover {
     background-color:#494949;
+    cursor: pointer;
+}
+
+.cancelBtn {
+    background-color: #696969;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.cancelBtn:hover {
+    background-color:#494949;
+    cursor: pointer;
 }
 
 .list_table {
