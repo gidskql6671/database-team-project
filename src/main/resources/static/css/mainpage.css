@@ -41,6 +41,35 @@ main {
     display: block;
 }
 
+#login_form input[type="text"],
+#login_form input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+}
+
+#login_form input[type="text"]::placeholder,
+#login_form input[type="password"]::placeholder {
+    color: #a0a0a0;
+    font-size: 0.9em;
+}
+
+#login_form input:focus {
+    outline: none;
+}
+
+.btn_login {
+    background-color: #ca3833;
+    border-radius: 10px;
+    color: #ffffff;
+    border: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -63,4 +92,7 @@ main {
 
 .btn_logout {
     margin-top: 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
 }
