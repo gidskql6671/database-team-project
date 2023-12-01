@@ -115,7 +115,7 @@ label {
 #timeSlots .timeSlot {
     flex-grow: 1;
     height: 30px;
-    border-right: 1px solid #000;
+    border-right: 1px solid #fff;
     position: relative;
     background-color: #BDBDBD;
 }
