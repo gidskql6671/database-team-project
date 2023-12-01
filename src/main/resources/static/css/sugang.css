@@ -33,3 +33,18 @@ table, td, th {
     text-align: center;
 }
 .list_table caption{caption-side: bottom; display: none;}
+
+.sugang_container button, .class_container button {
+    background-color: #696969;
+    color: white;
+    border: none;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
+.sugang_container button:hover, .class_container button:hover {
+    background-color:#494949;
+    cursor: pointer;
+}
+.taking_class_list button {
+    padding: 5px 10px;
+}
