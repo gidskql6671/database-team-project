@@ -35,3 +35,16 @@ async function logout() {
         location.reload();
     }
 }
+
+const loginForm = document.getElementById("login_form")
+
+loginForm
+    .login_password
+    .addEventListener("keyup", function (event) {
+    const key = event.key || event.keyCode;
+
+    if (key === 'Enter' || key === 13) {
+        event.preventDefault();
+        loginForm.querySelector(".btn_login").click();
+    }
+});
