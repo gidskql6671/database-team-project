@@ -1,6 +1,7 @@
 package knu.database.lms.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import knu.database.lms.dto.controller.ExceptionResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,11 +17,11 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(SQLException.class)
 	@ResponseBody
-	public ResponseEntity<String> handleSqlException(SQLException e) {
+	public ResponseEntity<ExceptionResponse> handleSqlException(SQLException e) {
 		System.out.println(e.getMessage());
 		return ResponseEntity
 				.internalServerError()
-				.body("SQL 예외가 발생했습니다.");
+				.body(new ExceptionResponse(e.getMessage()));
 	}
 
 	@ExceptionHandler(ResponseStatusException.class)

@@ -88,23 +88,14 @@ public class ClassroomRepository {
             throw new SQLException("이미 예약된 강의실입니다.");
         }
 
-
-
-        int seqNextVal;
-        String sql = "SELECT reserved_classroom_seq.NEXTVAL FROM dual";
-        ResultSet rs = stmt.executeQuery(sql);
-        rs.next();
-        seqNextVal = rs.getInt(1);
-        rs.close();
-
-        sql = "INSERT INTO RESERVED_CLASSROOM VALUES (?, ?, ?, ?, ?, ?) ";
+        String sql =
+                "INSERT INTO RESERVED_CLASSROOM VALUES (reserved_classroom_seq.NEXTVAL, ?, ?, ?, ?, ?) ";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, seqNextVal);
-        ps.setString(2, studentId);
-        ps.setInt(3, buildingNumber);
-        ps.setString(4, roomCode);
-        ps.setObject(5, Timestamp.valueOf(startDateTime));
-        ps.setObject(6, Timestamp.valueOf(endDateTime));
+        ps.setString(1, studentId);
+        ps.setInt(2, buildingNumber);
+        ps.setString(3, roomCode);
+        ps.setObject(4, Timestamp.valueOf(startDateTime));
+        ps.setObject(5, Timestamp.valueOf(endDateTime));
 
         int result = ps.executeUpdate();
 

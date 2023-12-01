@@ -1,7 +1,11 @@
 const now = new Date();
 
 function getDate(date) {
-  return date.toLocaleDateString().replace(/\./g, '').replace(/\s/g, '-');
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const dateNum = date.getDate();
+
+  return `${year}-${month >= 10 ? month : '0' + month}-${dateNum >= 10 ? dateNum : '0' + dateNum}`;
 }
 
 document.getElementById('reservedDate').value = getDate(now);
