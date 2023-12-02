@@ -21,7 +21,7 @@
 - 웹 페이지 환경을 통해 회원 기능, 수강 신청, 수업, 강의실 등의 기능을 이용할 수 있습니다.
 
 # 데모 링크
-추후 추가
+<https://youtu.be/KSoy3aUKMp0>
 
 # DDL 및 Insert 변경점.
 `Team1-Additional_task1.txt`에 더 자세한 설명이 있습니다.
