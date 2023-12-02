@@ -43,8 +43,8 @@
 				<h2> 수강 과목 목록 </h2>
 				<div class="taking_class_list">
 					<table class="list_table">
-						<th>lectureCode</th>
-						<th>sectionCode</th>
+						<th>과목 코드</th>
+						<th>분반</th>
 						<th>강의명</th>
 						<th></th>
 						<th:block th:each="takingClass : ${takingClasses}">
@@ -77,10 +77,10 @@
 				<div class="class_list">
 					<h2> 개설된 수업 목록 </h2>
 					<table class="list_table">
-						<th>lectureCode</th>
-						<th>sectionCode</th>
+						<th>과목 코드</th>
+						<th>분반</th>
 						<th>강의명</th>
-						<th>professorName</th>
+						<th>담당 교수</th>
 						<th>건물 번호</th>
 						<th>강의실</th>
 						<th>현재 수강 인원</th>
