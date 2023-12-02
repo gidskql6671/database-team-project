@@ -1,2 +1,2 @@
-Github 레포 링크 : https://github.com/gidskql6671/database2-team-project
-컨트리뷰터 그래프 링크 : https://github.com/gidskql6671/database2-team-project/graphs/contributors
+Github 레포 링크 : https://github.com/gidskql6671/database-team-project
+컨트리뷰터 그래프 링크 : https://github.com/gidskql6671/database-team-project/graphs/contributors
