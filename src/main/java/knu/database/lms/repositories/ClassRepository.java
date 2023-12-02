@@ -82,7 +82,8 @@ public class ClassRepository {
 		List<Post> result = new ArrayList<>();
 		String sql = "SELECT POST_ID, TYPE, TITLE, NAME, CREATED_AT " +
 				"FROM POST JOIN PROFESSOR ON PROFESSOR_ID = PUBLISHER_ID " +
-				"WHERE LECTURE_CODE = ? AND SECTION_CODE = ?";
+				"WHERE LECTURE_CODE = ? AND SECTION_CODE = ? " +
+				"ORDER BY CREATED_AT DESC ";
 
 		PreparedStatement ps = conn.prepareStatement(sql);
 
