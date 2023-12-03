@@ -43,8 +43,9 @@ UX를 개선하고 DBMS에 불필요한 무결성 에러를 발생시키지 않�
 ## 트랜잭션과 고립 수준
 강의실 예약 로직은 다음과 같이 진행됩니다.
 (1) reserved_classroom_seq Sequence를 통해 새 예약 id를 가져옵니다.
-(2) 새 예약이 기존 예약과 중복되는지 buildingnumber, roomnumber, start_timestamp, end_timestamp를 통해 확인합니다.
-(3) 중복된다면 SQL Execption을 발생 시키고, 중복되지 않는다면 RESERVED_CLASSROOM 테이블에 id와 예약정보를 새 튜플로 삽입합니다.
+(2) 새 예약이 현재보다 이전 날짜이거나, 종료 시간이 시작 시간보다 빠르다면 오류 메시지를 반환합니다.
+(3) 새 예약이 기존 예약과 중복되는지 buildingnumber, roomnumber, start_timestamp, end_timestamp를 통해 확인합니다.
+(4) 중복된다면 SQL Execption을 발생 시키고, 중복되지 않는다면 RESERVED_CLASSROOM 테이블에 id와 예약정보를 새 튜플로 삽입합니다.
 
 이 과정에서 RESERVED_CLASSROOM 테이블에 대해 SELECT와 INSERT 구문이 호출되기에 트랜잭션으로 묶게 되었습니다.
 또한 고립 수준은 SERIALIZABLE로 설정하였는데, 예약 중에 RESERVED_CLASSROOM 테이블에 다른 예약이 INSERT 되는 것을 막기위함입니다.
