@@ -79,60 +79,79 @@ public class ClassroomRepository {
             return ReserveClassroomResult.failResult("시작 시간이 종료 시간 보다 늦습니다.");
         }
 
-        Connection conn = dataSource.getConnection();
-        Statement stmt = conn.createStatement();
-        conn.setAutoCommit(false);
-        conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            Statement stmt = conn.createStatement();
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
-        if (reservedClassroom(buildingNumber, roomCode, startDateTime, endDateTime)) {
-            throw new SQLException("이미 예약된 강의실입니다.");
+            if (reservedClassroom(buildingNumber, roomCode, startDateTime, endDateTime)) {
+                throw new SQLException("이미 예약된 강의실입니다.");
+            }
+
+            String sql =
+                    "INSERT INTO RESERVED_CLASSROOM VALUES (reserved_classroom_seq.NEXTVAL, ?, ?, ?, ?, ?) ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, studentId);
+            ps.setInt(2, buildingNumber);
+            ps.setString(3, roomCode);
+            ps.setObject(4, Timestamp.valueOf(startDateTime));
+            ps.setObject(5, Timestamp.valueOf(endDateTime));
+
+            int result = ps.executeUpdate();
+
+            if (result == 0) {
+                throw new SQLException("알 수 없음.");
+            }
+
+            conn.commit();
+
+            ps.close();
+            conn.close();
+            stmt.close();
+
+            return ReserveClassroomResult.successResult();
         }
+        catch (Exception e) {
+            assert conn != null;
+            conn.rollback();
+            conn.close();
 
-        String sql =
-                "INSERT INTO RESERVED_CLASSROOM VALUES (reserved_classroom_seq.NEXTVAL, ?, ?, ?, ?, ?) ";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, studentId);
-        ps.setInt(2, buildingNumber);
-        ps.setString(3, roomCode);
-        ps.setObject(4, Timestamp.valueOf(startDateTime));
-        ps.setObject(5, Timestamp.valueOf(endDateTime));
-
-        int result = ps.executeUpdate();
-
-        if (result == 0) {
-            return ReserveClassroomResult.failResult("알 수 없음.");
+            return ReserveClassroomResult.failResult(e.getMessage());
         }
-
-        conn.commit();
-
-        ps.close();
-        conn.close();
-        stmt.close();
-
-        return ReserveClassroomResult.successResult();
     }
 
     public ReserveClassroomResult cancelClassroom(String studentId, int reservedId) throws SQLException {
-        Connection conn = dataSource.getConnection();
-        conn.setAutoCommit(false);
-        conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
-        String  sql = "DELETE FROM RESERVED_CLASSROOM WHERE STUDENT_ID = ? AND RESERVED_ID = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, studentId);
-        ps.setInt(2, reservedId);
-        int result = ps.executeUpdate();
+            String sql = "DELETE FROM RESERVED_CLASSROOM WHERE STUDENT_ID = ? AND RESERVED_ID = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, studentId);
+            ps.setInt(2, reservedId);
+            int result = ps.executeUpdate();
 
-        if (result == 0) {
-            return ReserveClassroomResult.failResult("알 수 없음.");
+            if (result == 0) {
+                throw new Exception("알 수 없음.");
+            }
+
+            conn.commit();
+
+            ps.close();
+            conn.close();
+
+            return ReserveClassroomResult.successResult();}
+        catch (Exception e) {
+            assert conn != null;
+            conn.rollback();
+            conn.close();
+
+            return ReserveClassroomResult.failResult(e.getMessage());
         }
-
-        conn.commit();
-
-        ps.close();
-        conn.close();
-
-        return ReserveClassroomResult.successResult();
     }
 
     public List<ReserveClassroom> getReservedClassrooms(String studentId) throws SQLException {
