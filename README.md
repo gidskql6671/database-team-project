@@ -18,6 +18,8 @@
    - `username` : 데이터베이스 접속 유저네임
    - `password` : 데이터베이스 접속 패스워드
 4. Gradle 빌드 후 실행 
+5. localhost:8080 접속
+6. 로그인은 id: "dong", password: "dong"을 사용해주시면 됩니다.
 
 # 기능 설명
 - 간단한 LMS 기능을 구현하였습니다.
